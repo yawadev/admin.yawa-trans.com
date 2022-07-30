@@ -1,0 +1,301 @@
+@layout('layout.app')
+
+@section('content')
+@set('title', 'Gestion des opérateurs')
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-start mb-0">GESTION DES FACTURES</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">{{commande.supplier_name}} FACTURE {{commande.date_created}}
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+        <div class="mb-1 breadcrumb-right">
+            <a  href="{{route('commandes')}}"class="btn btn-danger suspend-user waves-effect">Retour</a>
+        </div>
+    </div>
+</div>
+<div class="content-body">
+    <section class="invoice-preview-wrapper">
+        <div class="row invoice-preview">
+            <!-- Invoice -->
+            <div class="col-xl-9 col-md-8 col-12"  id="facturePrint">
+                <div class="card invoice-preview-card">
+                    <div class="card-body invoice-padding pb-0">
+                        <!-- Header starts -->
+                        <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+                            
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <div class="logo-wrapper">
+                                                        <img src="/assets/images/logo.png" width="100">
+                                                    </div>
+                                                    <br>
+                                                    <p class="card-text mb-0">NINEA : 007082746 <br> RC : SN.KLD.2018. E.777 </p>
+                                                    <p class="card-text mb-0">TEL: 776211979 - 776481552 </p>
+                                                </div>
+                                            </td>
+                                            <td style="height:100px">
+                                                <div class="mt-md-0 mt-2">
+                                                    <div class="logo-wrapper" >
+                                                        <img src="/assets/images/is.png" width="150" align="right">
+                                                    </div>
+                                                    <br>
+                                                    <h4 class="invoice-title">
+                                                        FAC N°: 
+                                                        <span class="invoice-number">#000{{commande.id}}</span>
+                                                        <span class="card-text mb-25">{{commande.date_created}}</span>
+                                                        
+                                                    </h4>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                                
+                        </div>
+                        <!-- Header ends -->
+                    </div>
+                    <div class="divider">
+                        <div class="divider-text"> <h2> <strong>BON DE COMMANDE</strong></h2> </div>
+                    </div>
+
+                    <!-- Address and Contact starts -->
+                    <div class="card-body invoice-padding pt-0">
+                        <div class="row invoice-spacing">
+                            <table class="table" style="width:100%">
+                                <tr>
+                                    <td>
+                                        <div class="col-xl-8 p-0">
+                                            <h6 class="mb-25">{{supplier.name}}</h6>
+                                            <p class="card-text mb-25">{{supplier.adresse}}</p>
+                                            <p class="card-text mb-25"><strong>{{supplier.contact_phone}}</strong></p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-xl-8 p-0">
+                                            @if(commande.payement_status === '0')
+                                                <h6 class="mb-25"><strong>EN ATTENTE DE PAIEMENT</strong> </h6>
+                                            @else
+                                                <h6 class="mb-25"><strong>FACTURE PAYEE</strong> </h6>
+                                                <h6 class="mb-25"><strong>PAR {{commande.payment_methode}}</strong> </h6>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Address and Contact ends -->
+
+                    <!-- Invoice Description starts -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="py-1">DESCRIPTION</th>
+                                    <th class="py-1">MONTANT</th>
+                                    <th class="py-1">QUANTITE</th>
+                                    <th class="py-1">TOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @each(ag in art)
+                                <tr>
+                                    <td class="py-1">
+                                        <p class="card-text fw-bold mb-25">{{ag.name}} </p>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="fw-bold">{{ag.price}} XOF</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="fw-bold">{{ag.qut}} </span>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="fw-bold">{{ag.amount}} XOF</span>
+                                    </td>
+                                </tr>
+                                @endeach
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>TOTAL</td>
+                                    <td>{{commande.amount}} XOF</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card-body invoice-padding pb-0">
+                        <div class="row invoice-sales-total-wrapper">
+                            <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
+                                
+                            </div>
+                            <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
+                                <div class="invoice-total-item">
+                                    <blockquote class="blockquote pe-1 mt-2 text-end border-end-primary border-end-3">
+                                        <p>
+                                            <strong>LE DIRECTEUR GENERAL</strong>
+                                            
+                                        </p>
+                                        <footer class="blockquote-footer">
+                                           <strong>DJIBRIL SAGNA</strong> 
+                                        </footer>
+                                    </blockquote>
+                                </div>
+                                            
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Invoice Description ends -->
+
+                    <div class="divider">
+                        <div class="divider-text"></div>
+                    </div>
+                    <!-- Invoice Note starts -->
+                    <div class="card-body invoice-padding pt-0">
+                        <div class="row">
+                            <div class="col-12" align="center">
+                                <span>QUARTIER ESCALE, FACE SUD DU TRIBUNAL REGIONAL DE KOLDA IMMEUBLE FAMARA DRAME</span><br>
+                                <span>76 191 99 11– 77 621 19 79 </span><br>
+                                <span>contact@impactsolution.sn - www.impactsolution.sn</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Invoice Note ends -->
+                </div>
+            </div>
+            <!-- /Invoice -->
+
+            <!-- Invoice Actions -->
+            <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
+                <div class="card">
+                    <div class="card-body">
+                        <a class="btn btn-outline-secondary w-100 mb-75" id="printBtn" onclick="printDiv('facturePrint');"> IMPRIMER </a>
+                        @if(commande.payement_status === '0')
+                        <a class="btn btn-outline-secondary w-100 mb-75"  data-bs-toggle="modal" data-bs-target="#edit"> MODIFIER </a>
+                        <a class="btn btn-outline-danger w-100 mb-75"  data-bs-toggle="modal" data-bs-target="#add_items"> AJOUTER UN ARTICLE </a>
+                        <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#add-payment-sidebar">
+                            PAIEMENT
+                        </button>
+                          
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <!-- /Invoice Actions -->
+        </div>
+    </section>
+
+    <!-- Send Invoice Sidebar -->
+    <div class="modal modal-slide-in fade" id="edit" aria-hidden="true">
+        <div class="modal-dialog sidebar-lg">
+            <form class="modal-content pt-0" action="/commandes/update/{{ commande.id }}?_method=PUT" method="POST">
+                {{ csrfField() }}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                <div class="modal-header mb-1">
+                    <h5 class="modal-title" id="exampleModalLabel">Modification</h5>
+                </div>
+                <div class="modal-body flex-grow-1">
+                    <div class="mb-1">
+                        <label class="form-label" for="supplier_id">Fournisseur</label>
+                        <select id="supplier_id" name="supplier_id" class="select2 form-select" required>
+                            @each(ag in suppliers)
+                            <option value="{{ ag.id }}">{{ ag.name }} - {{ ag.adresse }}</option>
+                            @endeach
+                        </select>
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label" for="payment-date">Date commande</label>
+                        <input id="payment-date" class="form-control date-picker" name="date_created" type="date" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    <button type="reset" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /Send Invoice Sidebar -->
+<!-- /Send Invoice Sidebar -->
+    <!-- Add Payment Sidebar -->
+    <div class="modal modal-slide-in fade" id="add-payment-sidebar" aria-hidden="true">
+        <div class="modal-dialog sidebar-lg">
+            <div class="modal-content p-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                <div class="modal-header mb-1">
+                    <h5 class="modal-title">
+                        <span class="align-middle">PAIEMENT</span>
+                    </h5>
+                </div>
+                <div class="modal-body flex-grow-1">
+                    <form action="/commandes/paiement/{{ commande.id }}?_method=PUT" method="POST">
+                        <div class="mb-1">
+                            <label class="form-label" for="payment-date">Date paiement</label>
+                            <input id="payment-date" class="form-control date-picker" name="date_pay" type="date" />
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label" for="payment-method">Mode de paiement</label>
+                            <select class="form-select" id="payment_methode" name="payment_methode">
+                                <option value="CASH" selected>CASH</option>
+                                <option value="WAVE">WAVE</option>
+                                <option value="ORANGE MONEY">ORANGE MONEY</option>
+                            </select>
+                        </div>
+                        <div class="d-flex flex-wrap mb-0">
+                            <button type="submit" class="btn btn-primary me-1" data-bs-dismiss="modal">Sauvegarder</button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal modal-slide-in fade" id="add_items" aria-hidden="true">
+        <div class="modal-dialog sidebar-lg">
+            <div class="modal-content p-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                <div class="modal-header mb-1">
+                    <h5 class="modal-title">
+                        <span class="align-middle">AJOUTER UN ARTICLE</span>
+                    </h5>
+                </div>
+                <div class="modal-body flex-grow-1">
+                    <form action="/commandes/items/{{ commande.id }}?_method=PUT" method="POST">
+                        <div class="mb-1">
+                            <label class="form-label" for="name">ARTICLES</label>
+                            <div class="input-group input-group-merge mb-2">
+                                <input type="text" id="qut" name="qut" class="form-control" value="BOBINES">
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label" for="amount">QUANTITE</label>
+                            <div class="input-group input-group-merge mb-2">
+                                <input type="number" id="qut" name="qut" class="form-control" value="1">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap mb-0">
+                            <button type="submit" class="btn btn-primary me-1" data-bs-dismiss="modal">Sauvegarder</button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Add Payment Sidebar -->
+
+</div>
+
+
+@endsection

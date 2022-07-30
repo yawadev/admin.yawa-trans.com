@@ -1,0 +1,235 @@
+@layout('layout.app')
+
+@section('content')
+@set('title', 'Gestion des opérateurs')
+
+<section class="app-user-list">
+    <div class="row">
+        <div class="col-lg-4 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h3 class="fw-bolder mb-75">{{tot}}</h3>
+                        <span>Total opérateurs</span>
+                    </div>
+                    <div class="avatar bg-light-primary p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h3 class="fw-bolder mb-75">{{tot_actif}}</h3>
+                        <span>Actifs</span>
+                    </div>
+                    <div class="avatar bg-light-danger p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-plus" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(tot_inactif==0)
+                        <h3 class="fw-bolder mb-75">0</h3>
+                          
+                        @else
+                        <h3 class="fw-bolder mb-75">{{tot_inactif}}</h3>
+                          
+                        @endif
+                        <span>Inactifs</span>
+                    </div>
+                    <div class="avatar bg-light-success p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-check" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- list and filter start -->
+    @if(flashMessage('notification'))
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('notification') }}
+        </div>
+    </div>
+    @endif
+    @if(hasErrorFor('name'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ getErrorFor('name') }}
+        </div>
+    </div>
+    @endif
+    @if(flashMessage('warning'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('warning') }}
+        </div>
+    </div>
+    @endif
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Liste de opérateurs</h4>
+            <div class="heading-elements">
+                <button type="button" class="btn btn-success waves-effect" data-bs-toggle="modal"
+                    data-bs-target="#addOperator">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-home me-25">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Ajouter</span>
+                </button>
+            </div>
+        </div>
+        <div class="card-content collapse show">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>OPERATEUR</th>
+                                        <th>GIE</th>
+                                        <th>ZONE</th>
+                                        <th>STATUT</th>
+                                        <th>OPTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @each(ag in operator)
+                                    <tr>
+                                        <td>{{ ag.name }}</td>
+                                        <td>{{ ag.companie }}</td>
+                                        <td>{{ ag.zone }}</td>
+                                        <td>
+                                            @if(ag.is_activated == true)
+                                            <span class="badge rounded-pill badge-light-success me-1">Activé</span>
+                                            @else
+                                            <span class="badge rounded-pill badge-light-danger me-1">Désactivé</span>
+
+                                            @endif
+
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                
+                                                <a href="/operators/view/{{ ag.id }}" type="button" class="btn btn-outline-primary waves-effect"><i
+                                                        data-feather='eye'></i>
+                                                    <path
+                                                        d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+                                                    </path>
+                                                    </svg>
+                                                </a>
+                                                <button type="button" class="btn btn-outline-danger waves-effect"><i
+                                                        data-feather='trash-2'></i>
+                                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+                                                    </path>
+                                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Edit User Modal -->
+                                    <div class="modal fade" id="editOp{{ ag.id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+                                            <div class="modal-content">
+                                                <div class="modal-body pb-5 px-sm-5 pt-50">
+                                                    <div class="text-center mb-2">
+                                                        <h1 class="mb-1">Modification {{ag.name}}</h1>
+                                                    </div>
+                                                    <form action="/operators/update/{{ ag.id }}?_method=PUT"
+                                                        method="POST" class="modal-content pt-0">
+
+                                                        {{ csrfField() }}
+                                                        <div class="modal-body flex-grow-1">
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="companie_id">Gie</label>
+                                                                <select id="companie_id" name="companie_id"
+                                                                    class="select2 form-select" required>
+                                                                    <option value="{{ ag.companie_id }}">
+                                                                        {{ag.companie}}</option>
+                                                                    @each(ags in gie)
+                                                                    <option value="{{ ags.id }}">{{ ags.name }}</option>
+                                                                    @endeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="name">Nom</label>
+                                                                <input type="text" class="form-control dt-full-name"
+                                                                    id="name" name="name" value="{{ag.name}}"
+                                                                    required />
+                                                            </div>
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="phone">Téléphone</label>
+                                                                <input type="text" id="phone"
+                                                                    class="form-control dt-contact" name="phone"
+                                                                    value="{{ag.phone}}" required />
+                                                            </div>
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="email">Email</label>
+                                                                <input type="email" id="email" class="form-control"
+                                                                    value="{{ag.email}}" name="email" required />
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                <label class="form-label"
+                                                                    for="is_activated">Statut</label>
+                                                                <select id="is_activated" name="is_activated"
+                                                                    class="select2 form-select">
+                                                                    @if(ag.is_activated == 1)
+                                                                    <option value="true">Activé
+                                                                    </option>
+                                                                    <option value="false">Désactivé</option>
+
+                                                                    @else
+                                                                    <option value="false">Désactivé
+                                                                    </option>
+                                                                    <option value="true">Activé</option>
+                                                                    @endif
+                                                                </select>
+                                                            </div>
+                                                            <button type="submit"
+                                                                class="btn btn-primary">Sauvegarder</button>
+                                                            <button type="reset" class="btn btn-outline-danger"
+                                                                data-bs-dismiss="modal">Annuler</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/ Edit User Modal -->
+                                    @endeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @include('custumers.operator._form')
+    <!-- list and filter end -->
+</section>
+
+@endsection

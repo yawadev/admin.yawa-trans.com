@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="description"
+        content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
+    <meta name="keywords"
+        content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="PIXINVENT">
+    <title>YAWA-TRANS :: by YAWA TECHNOLOGIE</title>
+    <link rel="apple-touch-icon" href="/assets/images/ico/apple-icon-120.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/ico/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
+        rel="stylesheet">
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/css/charts/apexcharts.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/css/extensions/toastr.min.css">
+    <!-- END: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="/assets/css/pages/app-invoice.css">
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-extended.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/colors.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/components.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/themes/semi-dark-layout.min.css">
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/css/forms/select/select2.min.css">
+    <link rel="stylesheet" href="/assets/css/vanilla-dataTables.min.css" />
+     <link rel="stylesheet" type="text/css" href="/assets/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/buttons.dataTables.min.css">
+    <!-- END: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/css/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/css/extensions/sweetalert2.min.css">
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="/assets/css/plugins/extensions/ext-component-sweet-alerts.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/core/menu/menu-types/vertical-menu.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/pages/dashboard-ecommerce.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/plugins/charts/chart-apex.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/plugins/extensions/ext-component-toastr.min.css">
+    <!-- END: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/css/pickers/pickadate/pickadate.css">
+    <link rel="stylesheet" type="text/css" href="/assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="/assets/css/plugins/forms/pickers/form-flat-pickr.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/plugins/forms/pickers/form-pickadate.css">
+    <script src="https://unpkg.com/jsbarcode@latest/dist/JsBarcode.all.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/css/pages/page-faq.css">
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <!-- END: Custom CSS-->
+    <link rel="manifest" href="/manifest.json" />
+    <script>
+        window.addEventListener('load', ()=>{
+         if("serviceWorker" in navigator){
+             navigator.serviceWorker.register('/sw.js')
+         }
+     })
+    </script>
+    <style type="text/css">
+        a {text-decoration: none; }
+    </style>
+</head>
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click"
+    data-menu="vertical-menu-modern" data-col="">
+    @include('layout.partials.header')
+    @include('layout.partials.left')
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper container-xxl p-0">
+            <div class="content-header row"></div>
+            <div class="content-body">
+                @!section('content')
+            </div>
+        </div>
+        @include('layout.partials.footer')
+    </div>
+
+    <!-- BEGIN: Vendor JS-->
+    <script src="/assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="/assets/vendors/js/charts/apexcharts.min.js"></script>
+    <script src="/assets/vendors/js/extensions/toastr.min.js"></script>
+    <!-- END: Page Vendor JS-->
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="/assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script type="text/javascript" src="/assets/js/datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/assets/js/datatables/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="/assets/js/datatables/jszip.min.js"></script>
+    <script type="text/javascript" src="/assets/js/datatables/pdfmake.min.js"></script>
+    <script type="text/javascript" src="/assets/js/datatables/vfs_fonts.js"></script>
+    <script type="text/javascript" src="/assets/js/datatables/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="/assets/js/datatables/buttons.print.min.js"></script>
+    <script type="text/javascript" src="/assets/js/datatables/jquery.mark.min.js"></script>
+    <script type="text/javascript" src="/assets/js/datatable.js"></script>
+    <script type="text/javascript" src="/assets/js/datatables/datatables.mark.js"></script>
+    <script type="text/javascript" src="/assets/js/datatables/buttons.colVis.min.js"></script>
+    <script src="/assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+    <script src="/assets/vendors/js/forms/cleave/cleave.min.js"></script>
+    <script src="/assets/vendors/js/forms/cleave/addons/cleave-phone.us.js"></script>
+    <!-- END: Page Vendor JS-->
+    <!-- BEGIN: Page JS-->
+    <script src="/assets/js/scripts/pages/app-user-list.min.js"></script>
+	<script src="/assets/js/custum/JsBarcode.all.js"></script>
+    <!-- END: Page JS-->
+    <!-- BEGIN: Theme JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="/assets/vendors/js/pickers/pickadate/picker.js"></script>
+    <script src="/assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+    <script src="/assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+    <script src="/assets/vendors/js/pickers/pickadate/legacy.js"></script>
+    <script src="/assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <!-- END: Page Vendor JS--><!-- BEGIN: Page JS-->
+    <!-- BEGIN: Page JS-->
+    <script src="/assets/js/scripts/forms/pickers/form-pickers.js"></script>
+    <!-- END: Page JS-->
+    <script src="/assets/js/core/app-menu.min.js"></script>
+    <script src="/assets/js/core/app.min.js"></script>
+
+    <script src="/app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+    <script src="/app-assets/vendors/js/extensions/polyfill.min.js"></script>
+    <script src="/assets/js/custum/ajax.js"></script>
+    <!-- END: Theme JS-->
+    <script src="/assets/js/scripts/pages/dashboard-ecommerce.min.js"></script>
+    <!-- END: Page JS-->
+    <script> 
+    JsBarcode("#canvas", "{{subscription.qrcode}}", {
+        format: "CODE128",
+        width: 2,
+        height: 50,
+        displayValue: false
+    });
+        
+    </script>
+    <script>
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+        location.reload();
+    }
+
+
+        $(window).on('load', function() {
+        if (feather) {
+            feather.replace({
+                width: 14,
+                height: 14
+            });
+        }
+    })
+    </script>
+</body>
+<!-- END: Body-->
+
+</html>

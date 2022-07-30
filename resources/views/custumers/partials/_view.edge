@@ -1,0 +1,132 @@
+
+
+<!-- BEGIN: Content-->
+
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-start mb-0">Account</h2>
+                        <div class="breadcrumb-wrapper">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="#">Account Settings </a>
+                                </li>
+                                <li class="breadcrumb-item active"> Account
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+                <div class="mb-1 breadcrumb-right">
+                    <div class="dropdown">
+                        <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="grid"></i></button>
+                        <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="app-todo.html"><i class="me-1" data-feather="check-square"></i><span class="align-middle">Todo</span></a><a class="dropdown-item" href="app-chat.html"><i class="me-1" data-feather="message-square"></i><span class="align-middle">Chat</span></a><a class="dropdown-item" href="app-email.html"><i class="me-1" data-feather="mail"></i><span class="align-middle">Email</span></a><a class="dropdown-item" href="app-calendar.html"><i class="me-1" data-feather="calendar"></i><span class="align-middle">Calendar</span></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-12">
+                    <ul class="nav nav-pills mb-2">
+                        <!-- account -->
+                        <li class="nav-item">
+                            <a class="nav-link active" href="page-account-settings-account.html">
+                                <i data-feather="user" class="font-medium-3 me-50"></i>
+                                <span class="fw-bold">Account</span>
+                            </a>
+                        </li>
+                        <!-- security -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="page-account-settings-security.html">
+                                <i data-feather="lock" class="font-medium-3 me-50"></i>
+                                <span class="fw-bold">Security</span>
+                            </a>
+                        </li>
+                        <!-- billing and plans -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="page-account-settings-billing.html">
+                                <i data-feather="bookmark" class="font-medium-3 me-50"></i>
+                                <span class="fw-bold">Billings &amp; Plans</span>
+                            </a>
+                        </li>
+                        <!-- notification -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="page-account-settings-notifications.html">
+                                <i data-feather="bell" class="font-medium-3 me-50"></i>
+                                <span class="fw-bold">Notifications</span>
+                            </a>
+                        </li>
+                        <!-- connection -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="page-account-settings-connections.html">
+                                <i data-feather="link" class="font-medium-3 me-50"></i>
+                                <span class="fw-bold">Connections</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- profile -->
+                    <div class="card">
+                        <div class="card-header border-bottom">
+                            <h4 class="card-title">Profile Details</h4>
+                        </div>
+                        <div class="card-body py-2 my-25">
+                            <!-- header section -->
+                            <div class="d-flex">
+                                <a href="#" class="me-25">
+                                    <img src="/app-assets/images/portrait/small/avatar-s-11.jpg" id="account-upload-img" class="uploadedAvatar rounded me-50" alt="profile image" height="100" width="100" />
+                                </a>
+                                <!-- upload and reset button -->
+                                <div class="d-flex align-items-end mt-75 ms-1">
+                                    <div>
+                                        <label for="account-upload" class="btn btn-sm btn-primary mb-75 me-75">Upload</label>
+                                        <input type="file" id="account-upload" hidden accept="image/*" />
+                                        <button type="button" id="account-reset" class="btn btn-sm btn-outline-secondary mb-75">Reset</button>
+                                        <p class="mb-0">Allowed file types: png, jpg, jpeg.</p>
+                                    </div>
+                                </div>
+                                <!--/ upload and reset button -->
+                            </div>
+                            <!--/ header section -->
+
+                        </div>
+                    </div>
+
+                    <!-- deactivate account  -->
+                    <div class="card">
+                        <div class="card-header border-bottom">
+                            <h4 class="card-title">Delete Account</h4>
+                        </div>
+                        <div class="card-body py-2 my-25">
+                            <div class="alert alert-warning">
+                                <h4 class="alert-heading">Are you sure you want to delete your account?</h4>
+                                <div class="alert-body fw-normal">
+                                    Once you delete your account, there is no going back. Please be certain.
+                                </div>
+                            </div>
+
+                            <form id="formAccountDeactivation" class="validate-form" onsubmit="return false">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="accountActivation" id="accountActivation" data-msg="Please confirm you want to delete account" />
+                                    <label class="form-check-label font-small-3" for="accountActivation">
+                                        I confirm my account deactivation
+                                    </label>
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-danger deactivate-account mt-1">Deactivate Account</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--/ profile -->
+                </div>
+            </div>
+
+    
+<!-- END: Content-->
+

@@ -1,0 +1,251 @@
+@layout('layout.app')
+
+@section('content')
+@set('title', 'Gestion des devices')
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-start mb-0">GESTION DES FACTURES</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">{{companie.name}}
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+        <div class="mb-1 breadcrumb-right">
+            <a  href="{{route('subscriptions')}}" class="btn btn-danger suspend-user waves-effect">Retour</a>
+        </div>
+    </div>
+</div>
+<section class="app-user-list">
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(tot==0)
+                        <h3 class="fw-bolder mb-75">0 </h3>
+                          
+                        @else
+                        <h3 class="fw-bolder mb-75">{{tot}} </h3>
+                          
+                        @endif
+                        <span>Total</span>
+                    </div>
+                    <div class="avatar bg-light-primary p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(tot_pay==0)
+                        <h3 class="fw-bolder mb-75">0</h3>
+                          
+                        @else
+                        <h3 class="fw-bolder mb-75">{{tot_pay}}</h3>
+                          
+                        @endif
+                        <span>Payés</span>
+                    </div>
+                    <div class="avatar bg-light-danger p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-plus" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(tot_inpay==0)
+                        <h3 class="fw-bolder mb-75">0</h3>
+                          
+                        @else
+                        <h3 class="fw-bolder mb-75">{{tot_inpay}}</h3>
+                          
+                        @endif
+                        <span>EN ATTENTES</span>
+                    </div>
+                    <div class="avatar bg-light-success p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-check" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(tot_reliquat==0)
+                        <h3 class="fw-bolder mb-75">0</h3>
+                          
+                        @else
+                        <h3 class="fw-bolder mb-75">{{tot_reliquat}}</h3>
+                          
+                        @endif
+                        <span>RELIQUATS</span>
+                    </div>
+                    <div class="avatar bg-light-success p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-check" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- list and filter start -->
+    @if(flashMessage('notification'))
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('notification') }}
+        </div>
+    </div>
+    @endif
+    @if(hasErrorFor('name'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ getErrorFor('name') }}
+        </div>
+    </div>
+    @endif
+    @if(flashMessage('warning'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('warning') }}
+        </div>
+    </div>
+    @endif
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Liste des factures</h4>
+            <div class="heading-elements">
+                <button type="button" class="btn btn-success waves-effect" data-bs-toggle="modal"
+                    data-bs-target="#add">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-home me-25">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Ajouter</span>
+                </button>
+            </div>
+        </div>
+        <div class="card-content collapse show">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <input id="table_name" value="factures" hidden>
+                        <div class="table-responsive">
+                            <table class="table table-bordered"  id="maintable" cellspacing="0" width="75%">
+                                <thead>
+                                    <tr>
+                                        <th>GIE</th>
+                                        <th>OPERATEUR</th>
+                                        <th>MOIS</th>
+                                        <th>MONTANT</th>
+                                        <th>STATUT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @each(ag in subscriptions)
+                                    <tr>
+                                        <td> <a href="/subscriptions/view/{{ ag.id }}"> {{ ag.companie_name }} {{ ag.zone_name }}</a></td>
+                                        <td><a href="/subscriptions/view/{{ ag.id }}">{{ ag.operator_name }} {{ ag.vehicule_matricule }}</a></td>
+                                        <td><a href="/subscriptions/view/{{ ag.id }}">{{ ag.mois_pay }}</a></td>
+                                        <td><a href="/subscriptions/view/{{ ag.id }}">{{ ag.amount }} XOF</a></td>
+                                        <td>
+                                            @if(ag.payement_status === '1')
+                                            <span class="badge rounded-pill badge-light-success me-1">Payée</span>
+                                            @else
+                                            <span class="badge rounded-pill badge-light-danger me-1">En attente</span>
+
+                                            @endif
+
+                                        </td>
+                                    </tr>
+
+
+                                    <div class="modal fade" id="del{{ ag.id }}" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                            <div class="modal-header bg-transparent">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                                                <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                                <p class="text-center">Voulez-vous vraiement supprimer l'appareil du bus {{ag.vehicule_matricule}} ?</p>
+
+                                                <div class="col-12 text-center">
+                                                    <a href="/devices/delete/{{ ag.id }}" class="btn btn-primary me-1 mt-1">Confirmer</a>
+                                                    <button type="reset" class="btn btn-outline-danger mt-1" data-bs-dismiss="modal" aria-label="Close">
+                                                    Annuler
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal fade" id="blocked{{ ag.id }}" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                            <div class="modal-header bg-transparent">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                                                <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                                <p class="text-center">Voulez-vous vraiement bloquer l'appareil du bus {{ag.vehicule_matricule}} ?</p>
+
+                                                <div class="col-12 text-center">
+                                                    <a href="/devices/blocked/{{ ag.id }}" class="btn btn-primary me-1 mt-1">Confirmer</a>
+                                                    <button type="reset" class="btn btn-outline-danger mt-1" data-bs-dismiss="modal" aria-label="Close">
+                                                    Annuler
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endeach
+                                </tbody>
+                                <tfoot style="background-color: #c0c0c0; color: #ffffff; font-size: 0.9em; ">
+                                    <tr>
+                                        <th>GIE</th>
+                                        <th>OPERATEUR</th>
+                                        <th>BUS</th>
+                                        <th>MONTANT</th>
+                                        <th>STATUT</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @include('subscriptions.partials._form')
+    <!-- list and filter end -->
+</section>
+
+@endsection

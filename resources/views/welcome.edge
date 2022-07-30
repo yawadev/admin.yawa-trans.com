@@ -1,0 +1,195 @@
+@layout('layout.app')
+
+@section('content')
+@set('title', 'Dashboard')
+<section id="dashboard-analytics">
+  <div class="row match-height">
+    <!-- Greetings Card starts -->
+    <div class="col-lg-4 col-md-12 col-sm-12">
+      <div class="card card-congratulations">
+        <div class="card-body text-center">
+          <img src="/assets/images/elements/decore-left.png" class="congratulations-img-left" alt="card-img-left" />
+          <img src="/assets/images/elements/decore-right.png" class="congratulations-img-right" alt="card-img-right" />
+          <div class="avatar avatar-xl bg-primary shadow">
+            <div class="avatar-content">
+              <i data-feather="award" class="font-large-1"></i>
+            </div>
+          </div>
+          <div class="text-center">
+            <h1 class="mb-1 text-white">Bienvenue {{auth.user.name}},</h1>
+            <p class="card-text m-auto w-75">
+              Vous êtes un {{auth.user.role_name}}.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-8 col-md-6 col-12">
+      <div class="card card-statistics">
+          <div class="card-header">
+              <h4 class="card-title">STATISTIQUES</h4>
+          </div>
+          <div class="card-body statistics-body">
+              <div class="row">
+                  <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
+                      <div class="d-flex flex-row">
+                          <div class="avatar bg-light-primary me-2">
+                              <div class="avatar-content">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trending-up avatar-icon"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                              </div>
+                          </div>
+                          <div class="my-auto">
+                              <h4 class="fw-bolder mb-0">{{zone}}</h4>
+                              <p class="card-text font-small-3 mb-0">REGIONS</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
+                      <div class="d-flex flex-row">
+                          <div class="avatar bg-light-info me-2">
+                              <div class="avatar-content">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user avatar-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                              </div>
+                          </div>
+                          <div class="my-auto">
+                              <h4 class="fw-bolder mb-0">{{gie}}</h4>
+                              <p class="card-text font-small-3 mb-0">GIE</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-sm-0">
+                      <div class="d-flex flex-row">
+                          <div class="avatar bg-light-danger me-2">
+                              <div class="avatar-content">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box avatar-icon"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                              </div>
+                          </div>
+                          <div class="my-auto">
+                              <h4 class="fw-bolder mb-0">{{operators}}</h4>
+                              <p class="card-text font-small-3 mb-0">OPERATEURS</p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xl-3 col-sm-6 col-12">
+                      <div class="d-flex flex-row">
+                          <div class="avatar bg-light-success me-2">
+                              <div class="avatar-content">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign avatar-icon"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                              </div>
+                          </div>
+                          <div class="my-auto">
+                              <h4 class="fw-bolder mb-0">{{devices}}</h4>
+                              <p class="card-text font-small-3 mb-0">APPAREILS</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="row match-height">
+    <!-- Greetings Card starts -->
+    <div class="col-lg-5 col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2 class="fw-bolder mb-0">{{stock.qut}}</h2>
+                    <p class="card-text">BOBINES EN STOCK</p>
+                </div>
+                <div class="avatar bg-light-primary p-50 m-0">
+                    <div class="avatar-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu font-medium-5"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-transaction">
+            <div class="card-header">
+                <h4 class="card-title">DERNIERES FACTURES</h4>
+                
+            </div>
+            <div class="card-body">
+                @each(ag in subscriptions)
+                    <div class="transaction-item">
+                        <div class="d-flex">
+                            <div class="avatar bg-light-primary rounded float-start">
+                                <div class="avatar-content">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pocket avatar-icon font-medium-3"><path d="M4 3h16a2 2 0 0 1 2 2v6a10 10 0 0 1-10 10A10 10 0 0 1 2 11V5a2 2 0 0 1 2-2z"></path><polyline points="8 10 12 14 16 10"></polyline></svg>
+                                </div>
+                            </div>
+                            <div class="transaction-percentage">
+                                <h6 class="transaction-title">{{ag.operator_name}} - {{ag.vehicule_matricule}}</h6>
+                                <small class="fw-bolder text-danger">{{ag.date_end}} </small>
+                            </div>
+                        </div>
+                        <div class="fw-bolder text-success">{{ag.amount}} XOF</div>
+                    </div>
+                @endeach
+                <a href="/subscriptions" type="button" class="btn btn-primary w-100 waves-effect waves-float waves-light">VOIR PLUS</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-7 col-md-6 col-12">
+      
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">BUS EN LIGNES</h4>
+                
+            </div>
+            <div class="card-content collapse show">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input id="table_name" value="services" hidden>
+                            <div class="table-responsive">
+                                <table class="table table-bordered"  id="maintable" cellspacing="0" width="75%">
+                                    <thead>
+                                        <tr>
+                                            <th>BUS</th>
+                                            <th>DATE</th>
+                                            <th>STATUT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @each(ag in online_services)
+                                        <tr>
+                                            <td> <a href="/services/view/{{ ag.id }}" target="_blank"> {{ ag.vehicule_matricule }}</a></td>
+                                            <td><a href="/services/view/{{ ag.id }}" target="_blank">{{ ag.service_date }}</a></td>
+                                            <td> 
+                                                <a href="/services/view/{{ ag.id }}" target="_blank">
+                                                    @if(ag.is_activated === '1')
+                                                    <span class="badge rounded-pill badge-light-success me-1">OUVERT</span>
+                                                    @else
+                                                    <span class="badge rounded-pill badge-light-danger me-1">FERMER</span>
+
+                                                    @endif
+                                                    -    {{ ag.tickets_sum }} XOF
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        @endeach
+                                    </tbody>
+                                    <tfoot style="background-color: #c0c0c0; color: #ffffff; font-size: 0.9em; ">
+                                        <tr>
+                                            <th>BUS</th>
+                                            <th>DATE</th>
+                                            <th>STATUT</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+    <!-- Greetings Card ends -->
+
+  </div>
+
+</section>
+@endsection

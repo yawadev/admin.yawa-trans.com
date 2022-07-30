@@ -1,0 +1,172 @@
+@layout('layout.app') 
+@section('content') 
+@set('title', 'Gestion des recharges')
+
+<section class="app-user-list">
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h3 class="fw-bolder mb-75">{{tot}}</h3>
+                        <span>Total devices</span>
+                    </div>
+                    <div class="avatar bg-light-primary p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <h3 class="fw-bolder mb-75">{{tot_actif}}</h3>
+                        <span>Actifs</span>
+                    </div>
+                    <div class="avatar bg-light-danger p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-plus" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(free==0)
+                        <h3 class="fw-bolder mb-75">0</h3>
+
+                        @else
+                        <h3 class="fw-bolder mb-75">{{free}}</h3>
+
+                        @endif
+                        <span>SIM FREE</span>
+                    </div>
+                    <div class="avatar bg-light-success p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-check" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(orange==0)
+                        <h3 class="fw-bolder mb-75">0</h3>
+
+                        @else
+                        <h3 class="fw-bolder mb-75">{{orange}}</h3>
+
+                        @endif
+                        <span>SIM ORANGE</span>
+                    </div>
+                    <div class="avatar bg-light-success p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-check" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- list and filter start -->
+    @if(flashMessage('notification'))
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('notification') }}
+        </div>
+    </div>
+    @endif @if(hasErrorFor('name'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ getErrorFor('name') }}
+        </div>
+    </div>
+    @endif @if(flashMessage('warning'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('warning') }}
+        </div>
+    </div>
+    @endif
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Liste des recharges</h4>
+            <div class="heading-elements">
+                <button type="button" class="btn btn-success waves-effect" data-bs-toggle="modal" data-bs-target="#add">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-home me-25">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Ajouter</span>
+                </button>
+            </div>
+        </div>
+        <div class="card-content collapse show">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <input id="table_name" value="devices" hidden>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="maintable" cellspacing="0" width="75%">
+                                <thead>
+                                    <tr>
+                                        <th>CONNEXION</th>
+                                        <th>BUS</th>
+                                        <th>NUMERO</th>
+                                        <th>ACTIVATION</th>
+                                        <th>EXPIRATION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @each(ag in recharges)
+                                    <tr>
+                                        <td>
+                                            <a href="/devices/view/{{ag.device_id}}">
+                                                <img src="/{{ ag.connexion_img }}" class="me-75" height="50" width="60" alt="{{ ag.connexion_type }}">
+                                            </a>
+                                        </td>
+                                        <td><a href="/devices/view/{{ag.device_id}}"> {{ ag.vehicule_matricule }}</a></td>
+                                        <td><a href="/devices/view/{{ag.device_id}}"> {{ ag.device_number }}</a></td>
+                                        
+                                        <td><a href="/devices/view/{{ag.device_id}}"> {{ ag.date_pay }}</a></td>
+                                        <td><a href="/devices/view/{{ag.device_id}}"> {{ ag.date_end }}</a></td>
+                                    </tr>
+
+
+                                    @endeach
+                                </tbody>
+                                <tfoot style="background-color: #c0c0c0; color: #ffffff; font-size: 0.9em; ">
+                                    <tr>
+                                        <th>CONNEXION</th>
+                                        <th>BUS</th>
+                                        <th>NUMERO</th>
+                                        <th>ACTIVATION</th>
+                                        <th>EXPIRATION</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @include('recharges.partials._form')
+    <!-- list and filter end -->
+</section>
+
+@endsection

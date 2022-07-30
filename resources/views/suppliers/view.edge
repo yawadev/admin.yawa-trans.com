@@ -1,0 +1,270 @@
+@layout('layout.app')
+
+@section('content')
+@set('title', 'Gestion du Client {{companie.name}}')
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-start mb-0">GESTION DES LIGNES</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">{{line.name}}
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+        <div class="mb-1 breadcrumb-right">
+            <a  href="{{route('lines')}}" class="btn btn-danger suspend-user waves-effect">Retour</a>
+        </div>
+    </div>
+</div>
+<section class="app-user-view-account">
+    @if(flashMessage('notification'))
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('notification') }}
+        </div>
+    </div>
+    @endif
+    @if(hasErrorFor('name'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ getErrorFor('name') }}
+        </div>
+    </div>
+    @endif
+    @if(flashMessage('warning'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('warning') }}
+        </div>
+    </div>
+    @endif
+    <div class="row">
+        <!-- User Sidebar -->
+        <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+            <!-- User Card -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="user-avatar-section">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="avatar bg-light-danger avatar-xl">
+                                <span class="avatar-content">{{line.name}}</span>
+                            </div>
+                            <div class="user-info text-center">
+                                <h4>LIGNE</h4>
+                                <span class="badge bg-light-secondary">{{line.zone_name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="fw-bolder border-bottom pb-50 mb-1">Details</h4>
+                    <div class="info-container">
+                        <ul class="list-unstyled">
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">TERMINUS 1:</span>
+                                <span>{{line.point_a}}</span>
+                            </li>
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">TERMINUS 2:</span>
+                                <span>{{line.point_b}}</span>
+                            </li>
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">GIE:</span>
+                                <span>{{line.companie_name}}</span>
+                            </li>
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">Statut:</span>
+                                @if(line.is_activated === "1")
+                                <span class="badge rounded-pill badge-light-success me-1">Activé</span>
+                                @else
+                                <span class="badge rounded-pill badge-light-danger me-1">Désactivé</span>
+
+                                @endif
+                            </li>
+                        </ul>
+                        <div class="d-flex justify-content-center pt-2">
+                            <a data-bs-toggle="modal" data-bs-target="#edit" class="btn btn-primary me-1 waves-effect waves-float waves-light" data-bs-target="#editUser" data-bs-toggle="modal">
+                                Modifier
+                            </a>
+                            @if(line.is_activated === "1")
+                            <a  data-bs-toggle="modal" data-bs-target="#blocked" class="btn btn-danger suspend-user waves-effect">Suspendre</a>
+
+                            @else
+                            <a  data-bs-toggle="modal" data-bs-target="#reactived" class="btn btn-success suspend-user waves-effect">Réactiver</a>
+                            @endif
+                        </div>
+                        <!-- Edit User Modal -->
+                        <!--/ Edit User Modal -->
+                        <div class="modal fade" id="blocked" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-transparent">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    
+                                        
+                                    <form action="/lines/blocked/{{ line.id }}?_method=PUT"
+                                        method="POST" class="modal-content pt-0">
+
+                                        {{ csrfField() }}
+                                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                                            <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                        <p class="text-center">Voulez-vous vraiement bloquer  {{line.name}} ?</p>
+                                        <input type="text"   name="is_activated" value="0" hidden/>
+                                            
+                                            <button type="submit"
+                                                class="btn btn-primary">Valider</button>
+                                            <button type="reset" class="btn btn-outline-danger"
+                                                data-bs-dismiss="modal">Annuler</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="reactived" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-transparent">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    
+                                        
+                                    <form action="/lines/reactived/{{ line.id }}?_method=PUT"
+                                        method="POST" class="modal-content pt-0">
+
+                                        {{ csrfField() }}
+                                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                                            <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                            <p class="text-center">Voulez-vous vraiement réactiver  {{line.name}} ?</p>
+                                            <input type="text"   name="is_activated" value="1" hidden/>
+                                                
+                                                <button type="submit"
+                                                    class="btn btn-primary">Valider</button>
+                                                <button type="reset" class="btn btn-outline-danger"
+                                                data-bs-dismiss="modal">Annuler</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /User Card -->
+        </div>
+        <!--/ User Sidebar -->
+
+        <!-- User Content -->
+        <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-pills justify-content-center">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab-center" data-bs-toggle="pill" href="#home-center" aria-expanded="true">Tarifs</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home-center" aria-labelledby="home-tab-center" aria-expanded="true">
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Liste de section</h4>
+                                        <div class="heading-elements">
+                                            <button type="button" class="btn btn-primary waves-effect" data-bs-toggle="modal"
+                                                data-bs-target="#new_section">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-home me-25">
+                                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                                </svg>
+                                                <span>Ajouter</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-content collapse show">
+                                        <div class="col-sm-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>TARIF</th>
+                                                            <th>PRIX</th>
+                                                            <th>STATUT</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @each(ag in rates)
+                                                        <tr>
+                                                            <td>{{ ag.name }}</td>
+                                                            <td>{{ ag.price }} XOF</td>
+                                                            <td>
+                                                                @if(ag.is_activated == true)
+                                                                <span class="badge rounded-pill badge-light-success me-1">Activé</span>
+                                                                @else
+                                                                <span class="badge rounded-pill badge-light-danger me-1">Désactivé</span>
+                    
+                                                                @endif
+                    
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-outline-danger waves-effect"
+                                                                data-bs-toggle="modal" data-bs-target="#del{{ ag.id }}"><i
+                                                                        data-feather='trash-2'></i>
+                                                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+                                                                    </path>
+                                                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                                                    </svg>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <div class="modal fade" id="del{{ ag.id }}" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                <div class="modal-header bg-transparent">
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body px-sm-5 mx-50 pb-5">
+                                                                    <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                                                    <p class="text-center">Voulez-vous vraiement supprimer la {{ag.name}} ?</p>
+                                    
+                                                                    <div class="col-12 text-center">
+                                                                        <a href="/lines/delete/rate/{{ ag.id }}" class="btn btn-primary me-1 mt-1">Confirmer</a>
+                                                                        <button type="reset" class="btn btn-outline-danger mt-1" data-bs-dismiss="modal" aria-label="Close">
+                                                                        Annuler
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @endeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ User Content -->
+    </div>
+</section>
+@include('lines.partials._edit')
+@include('lines.partials._addRate')
+
+
+@endsection

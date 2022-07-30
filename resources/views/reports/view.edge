@@ -1,0 +1,204 @@
+@layout('layout.app')
+
+@section('content')
+@set('title', 'Gestion des opérateurs')
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-start mb-0">GESTION DES RAPPORTS</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">{{operator.name}}
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+        <div class="mb-1 breadcrumb-right">
+            <a  href="/reports" class="btn btn-danger suspend-user waves-effect">Retour</a>
+        </div>
+    </div>
+</div>
+<div class="content-body">
+    <section class="invoice-preview-wrapper">
+        <div class="row invoice-preview">
+            <!-- Invoice -->
+            <div class="col-xl-9 col-md-8 col-12"  id="facturePrint">
+                <div class="card invoice-preview-card">
+                    <div class="card-body invoice-padding pb-0">
+                        <!-- Header starts -->
+                        <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+                            
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <div class="logo-wrapper">
+                                                        <img src="/assets/images/logo.png" width="100">
+                                                    </div>
+                                                    <br>
+                                                    <p class="card-text mb-0">NINEA : 007082746 <br> RC : SN.KLD.2018. E.777 </p>
+                                                    <p class="card-text mb-0">TEL: 776211979 - 776481552 </p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <img id="canvas">
+                                                
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                                
+                        </div>
+                        <!-- Header ends -->
+                    </div>
+                    <div class="divider">
+                        <div class="divider-text"> <h2> <strong>RAPPORT DU {{dates.date1}} AU {{dates.date2}}</strong></h2> </div>
+                    </div>
+
+                    <!-- Address and Contact starts -->
+                    <div class="card-body invoice-padding pt-0">
+                        <div class="row invoice-spacing">
+                            <table class="table" style="width:100%">
+                                <tr>
+                                    <td>
+                                        <div class="col-xl-8 p-0">
+                                            @if(auth.user.role_id == 3)
+                                               <h6 class="mb-25">{{operator.name}}</h6>
+                                            <p class="card-text mb-25">{{operator.companie_name}} {{operator.zone_name}}</p>
+                                           
+                                            @else
+                                            <h6 class="mb-25">{{gie.name}} - {{gie.zone_name}}</h6>
+                                           
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="col-xl-12 p-0">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead style="color:black">
+                                                        <tr>
+                                                            <th class="py-1">VENTES</th>
+                                                            <th class="py-1">DEPENSES</th>
+                                                            <th class="py-1">SOLDE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="py-1">
+                                                                <p class="card-text fw-bold mb-25">{{ tickets_sum }} XOF</p>
+                                                            </td>
+                                                            <td class="py-1">
+                                                                <span class="fw-bold">{{ expenses_sum }} XOF</span>
+                                                            </td>
+                                                            <td class="py-1">
+                                                                <span class="fw-bold">{{ tickets_sum-expenses_sum }} XOF</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                          </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Address and Contact ends -->
+
+                    <!-- Invoice Description starts -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="py-1">BUS</th>
+                                    <th class="py-1">LIGNE</th>
+                                    <th class="py-1">DATE</th>
+                                    <th class="py-1">VENTES</th>
+                                    <th class="py-1">PASSAGERS</th>
+                                    <th class="py-1">CARBURANT</th>
+                                    <th class="py-1">DEPENSES</th>
+                                    <th class="py-1">SOLDE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @each(ag in services)
+                                <tr>
+                                    <td class="py-1">
+                                        <p class="card-text fw-bold mb-25">{{ ag.vehicule_matricule }}</p>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="fw-bold">{{ ag.line_name }}</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="fw-bold">{{ ag.service_date }}</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="fw-bold">{{ ag.tickets_sum }}</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="fw-bold">{{ ag.qut }}</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="fw-bold">{{ ag.cab }}</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="fw-bold">{{ ag.service_expense }}</span>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="fw-bold">{{ ag.service_balance }}</span>
+                                    </td>
+                                </tr>
+                                @endeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="divider">
+                        <div class="divider-text"></div>
+                    </div>
+                    <!-- Invoice Note starts -->
+                    <div class="card-body invoice-padding pt-0">
+                        <div class="row">
+                            <div class="col-12" align="center">
+                                <span>QUARTIER ESCALE, FACE SUD DU TRIBUNAL REGIONAL DE KOLDA IMMEUBLE FAMARA DRAME</span><br>
+                                <span>76 191 99 11– 77 621 19 79 </span><br>
+                                <span>contact@impactsolution.sn - www.impactsolution.sn</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Invoice Note ends -->
+                </div>
+            </div>
+            <!-- /Invoice -->
+
+            <!-- Invoice Actions -->
+            <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
+                <div class="card">
+                    <div class="card-body">
+                        <a class="btn btn-outline-secondary w-100 mb-75" id="printBtn" onclick="printDiv('facturePrint');"> IMPRIMER </a>
+                        @if(subscription.payement_status === '0')
+                        <a class="btn btn-outline-secondary w-100 mb-75"  data-bs-toggle="modal" data-bs-target="#edit"> MODIFIER </a>
+                        <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#add-payment-sidebar">
+                            PAIEMENT
+                        </button>
+                          
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <!-- /Invoice Actions -->
+        </div>
+    </section>
+
+</div>
+
+
+@endsection

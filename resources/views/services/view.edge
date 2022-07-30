@@ -1,0 +1,276 @@
+@layout('layout.app')
+
+@section('content')
+@set('title', 'Gestion des opérateurs')
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-start mb-0">GESTION DES SERVICES</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">{{service.seller}}
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+        <div class="mb-1 breadcrumb-right">
+            <a  href="/services" class="btn btn-danger suspend-user waves-effect">Retour</a>
+        </div>
+    </div>
+</div>
+<div class="content-body">
+    <div class="row">
+        <!-- User Sidebar -->
+        <div class="col-xl-4 col-lg-5 col-md-5 order-0 order-md-0">
+            <!-- User Card -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="user-avatar-section">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="avatar bg-light-danger avatar-xl">
+                                <span class="avatar-content">{{service.vehicule_matricule}}</span>
+                            </div>
+                            <div class="user-info text-center">
+                                <h4>LIGNE {{service.line_name}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="fw-bolder border-bottom text-center pb-50 mb-1">SERVICE DU {{service.service_date}}</h4>
+                    <div class="info-container">
+                        <ul class="list-unstyled">
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">HEURE DEBUT:</span>
+                                <span class="fw-bolder me-25">{{service.start_time}}</span>
+                            </li>
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">HEURE FERMETURE:</span>
+                                <span class="fw-bolder me-25">{{service.end_time}}</span>
+                            </li>
+                            
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">Statut:</span>
+                                @if(service.is_activated === "1")
+                                <span class="badge rounded-pill badge-light-success me-1">OUVERT</span>
+                                @else
+                                <span class="badge rounded-pill badge-light-danger me-1">FERME</span>
+
+                                @endif
+                            </li>
+                        </ul>
+                    </div>
+                    @if(auth.user.role_id == 1)
+                    <div class="d-flex justify-content-center pt-2">
+                        <a data-bs-toggle="modal" data-bs-target="#edit" class="btn btn-primary me-1 waves-effect waves-float waves-light" data-bs-target="#editUser" data-bs-toggle="modal">
+                            MODIFIER
+                        </a>
+                        @if(service.is_activated === "1")
+                        <a  data-bs-toggle="modal" data-bs-target="#blocked" class="btn btn-danger suspend-user waves-effect">CLOTURE</a>
+
+                        @else
+                        <a  data-bs-toggle="modal" data-bs-target="#reactived" class="btn btn-success suspend-user waves-effect">OUVRIR</a>
+                        @endif
+                    </div>
+                    @endif
+                </div>
+            </div>
+            <!-- /User Card -->
+        </div>
+        <div class="col-lg-4 col-md-6 col-12">
+            <div class="card">
+                <div class="user-avatar-section">
+                    <br>
+                    <div class="d-flex align-items-center flex-column">
+                        
+                        <div class="user-info text-center">
+                            <h4>NET A VERSE</h4>
+                        </div>
+                        <div class="avatar bg-light-success avatar-xl">
+                            @if(service.service_balance == 0)
+                            <span class="avatar-content">{{service.tickets_sum}} XOF </span>
+                              
+                            @else
+                            <span class="avatar-content">{{service.service_balance}} XOF </span>
+                              
+                            @endif
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <div class="card-body p-0  " style="position: relative;">
+                   
+                    <div class="row border-top text-center mx-0">
+                        <div class="col-6 border-end py-1">
+                            <p class="card-text text-muted mb-0">TOTAL VENTES</p>
+                            <h3 class="fw-bolder mb-0">{{service.tickets_sum}} XOF</h3>
+                        </div>
+                        <div class="col-6 py-1">
+                            <p class="card-text text-muted mb-0">TOTAL DEPENSES</p>
+                            <h3 class="fw-bolder mb-0">{{service.service_expense}} XOF</h3>
+                        </div>
+                    </div>
+                <div class="resize-triggers"><div class="expand-trigger"><div style="width: 327px; height: 321px;"></div></div><div class="contract-trigger"></div></div></div>
+            </div>
+            <div class="card business-card shadow-none  border-primary">
+                <div class="card-header pb-1 align-items-cente">
+                    <h4 class="card-title text-center">VENTES</h4>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-medium-3 cursor-pointer"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                </div>
+                <div class="card-body">
+                    
+                    <div class="business-items">
+                        @if(auth.user.role_id == 1)
+                        @each(t in tickets)
+                            
+                        <div class="business-item">
+                            <a  data-bs-toggle="modal" data-bs-target="#ticket{{t.id}}" >
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="business-checkbox-{{ t.id }}">TICKETS {{ t.price }}</label>
+                                </div>
+                                <span class="badge badge-light-primary">{{ t.qut }}</span>
+                                <span class="badge badge-light-success">{{ t.sum }} XOF</span>
+                            </div>
+                        </a>
+                        </div>
+                        
+                        <div class="modal fade" id="ticket{{t.id}}" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-transparent">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    
+                                        
+                                    <form action="/services/tickets/{{ t.id }}?_method=PUT"
+                                        method="POST" class="modal-content pt-0">
+                        
+                                        {{ csrfField() }}
+                                        <div class="modal-body flex-grow-1">
+                
+                                            <div class="mb-1">
+                                                <label class="form-label" for="qut">TICKETS VENDUS</label>
+                                                <input type="number" class="form-control dt-full-name"
+                                                    id="qut" name="qut" value="{{t.qut}}"
+                                                    required />
+                                            </div>
+                                            <button type="submit"
+                                                class="btn btn-primary">Sauvegarder</button>
+                                            <button type="reset" class="btn btn-outline-danger"
+                                                data-bs-dismiss="modal">Annuler</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    @endeach
+                        @else
+                        @each(t in tickets)
+                            
+                        <div class="business-item">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="business-checkbox-{{ t.id }}">TICKETS {{ t.price }}</label>
+                                </div>
+                                <span class="badge badge-light-primary">{{ t.qut }}</span>
+                                <span class="badge badge-light-success">{{ t.sum }} XOF</span>
+                            </div>
+                        </div>
+                        
+                        
+                    @endeach
+                        @endif
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ User Sidebar -->
+        <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+           
+            <div class="card business-card shadow-none  border-primary">
+                <div class="card-header pb-1">
+                    <h4 class="card-title">DEPENSES</h4>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-medium-3 cursor-pointer"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                </div>
+                <div class="card-body">
+                    <div class="business-items">
+                        
+                        @each(r in expenses)
+                            
+                            <div class="business-item">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="form-check">
+                                        <label class="form-check-label" for="business-checkbox-{{ r.id }}">{{ r.name }}</label>
+                                    </div>
+                                    <span class="badge badge-light-success">{{ r.sum }} XOF</span>
+                                </div>
+                            </div>
+                            
+                            
+                        @endeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@include('services.partials._edit')
+<div class="modal fade" id="blocked" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-transparent">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+                
+            <form action="/services/blocked/{{ service.id }}?_method=PUT"
+                method="POST" class="modal-content pt-0">
+
+                {{ csrfField() }}
+                <div class="modal-body px-sm-5 mx-50 pb-5">
+                    <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                <p class="text-center">Voulez-vous vraiement bloquer  {{service.seller}} ?</p>
+                <input type="text"   name="is_activated" value="0" hidden/>
+                    
+                    <button type="submit"
+                        class="btn btn-primary">Valider</button>
+                    <button type="reset" class="btn btn-outline-danger"
+                        data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="reactived" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-transparent">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+                
+            <form action="/services/reactived/{{ service.id }}?_method=PUT"
+                method="POST" class="modal-content pt-0">
+
+                {{ csrfField() }}
+                <div class="modal-body px-sm-5 mx-50 pb-5">
+                    <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                    <p class="text-center">Voulez-vous vraiement réactiver  {{service.seller}} ?</p>
+                    <input type="text"   name="is_activated" value="1" hidden/>
+                        
+                        <button type="submit"
+                            class="btn btn-primary">Valider</button>
+                        <button type="reset" class="btn btn-outline-danger"
+                        data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@endsection

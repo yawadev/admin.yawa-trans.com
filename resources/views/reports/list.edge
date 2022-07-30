@@ -1,0 +1,288 @@
+@layout('layout.app')
+
+@section('content')
+@set('title', 'Gestion des service')
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-start mb-0">GESTION DES SERVICES</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">SERVICES EN LIGNES
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="app-user-list">
+    <div class="row">
+        <div class="col-lg-4 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(devices==0)
+                        <h3 class="fw-bolder mb-75">0 </h3>
+                          
+                        @else
+                        <h3 class="fw-bolder mb-75">{{devices}} </h3>
+                          
+                        @endif
+                        <span>TOTAL</span>
+                    </div>
+                    <div class="avatar bg-light-primary p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(online_services_count==0)
+                        <h3 class="fw-bolder mb-75">0</h3>
+                          
+                        @else
+                        <h3 class="fw-bolder mb-75">{{online_services_count}}</h3>
+                          
+                        @endif
+                        <span>EN LIGNE</span>
+                    </div>
+                    <div class="avatar bg-light-danger p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-plus" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(online_services_count==0)
+                        <h3 class="fw-bolder mb-75">{{devices}}</h3>
+                          
+                        @else
+                        <h3 class="fw-bolder mb-75">{{devices-online_services_count}}</h3>
+                          
+                        @endif
+                        <span>HORS LIGNE</span>
+                    </div>
+                    <div class="avatar bg-light-success p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-check" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- list and filter start -->
+    @if(flashMessage('notification'))
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('notification') }}
+        </div>
+    </div>
+    @endif
+    @if(hasErrorFor('name'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ getErrorFor('name') }}
+        </div>
+    </div>
+    @endif
+    @if(flashMessage('warning'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('warning') }}
+        </div>
+    </div>
+    @endif
+    <div class="card">
+        <div class="card-body">
+            <ul class="nav nav-pills justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab-center" data-bs-toggle="pill" href="#home-center" aria-expanded="true">SERVICES OUVERTS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="profile-tab-center" data-bs-toggle="pill" href="#profile-center" aria-expanded="false">SERVICES FERMES</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home-center" aria-labelledby="home-tab-center" aria-expanded="true">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Liste des services</h4>
+                            
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input id="table_name" value="services" hidden>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered"  id="maintable" cellspacing="0" width="75%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>BUS</th>
+                                                        <th>LIGNE</th>
+                                                        <th>DATE</th>
+                                                        <th>VENTES</th>
+                                                        <th>STATUT</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @each(ag in online_services)
+                                                    <tr>
+                                                        <td> <a href="/services/view/{{ ag.id }}"> {{ ag.vehicule_matricule }}</a></td>
+                                                        <td><a href="/services/view/{{ ag.id }}">{{ ag.line_name }}</a></td>
+                                                        <td><a href="/services/view/{{ ag.id }}">{{ ag.service_date }}</a></td>
+                                                        <td><a href="/services/view/{{ ag.id }}">{{ ag.tickets_sum }} XOF</a></td>
+                                                        <td>
+                                                            @if(ag.is_activated === '1')
+                                                            <span class="badge rounded-pill badge-light-success me-1">OUVERT</span>
+                                                            @else
+                                                            <span class="badge rounded-pill badge-light-danger me-1">FERMER</span>
+                
+                                                            @endif
+                
+                                                        </td>
+                                                    </tr>
+                
+                
+                                                    <div class="modal fade" id="del{{ ag.id }}" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                            <div class="modal-header bg-transparent">
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                                                                <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                                                <p class="text-center">Voulez-vous vraiement supprimer l'appareil du bus {{ag.vehicule_matricule}} ?</p>
+                
+                                                                <div class="col-12 text-center">
+                                                                    <a href="/devices/delete/{{ ag.id }}" class="btn btn-primary me-1 mt-1">Confirmer</a>
+                                                                    <button type="reset" class="btn btn-outline-danger mt-1" data-bs-dismiss="modal" aria-label="Close">
+                                                                    Annuler
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                
+                                                    @endeach
+                                                </tbody>
+                                                <tfoot style="background-color: #c0c0c0; color: #ffffff; font-size: 0.9em; ">
+                                                    <tr>
+                                                        <th>BUS</th>
+                                                        <th>LIGNE</th>
+                                                        <th>DATE</th>
+                                                        <th>VENTES</th>
+                                                        <th>STATUT</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane " id="profile-center" role="tabpanel" aria-labelledby="profile-tab-center" aria-expanded="false">
+                    <div class="card">
+                        <div class="card-header">
+                            
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input id="table_name" value="services" hidden>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered"  id="maintable" cellspacing="0" width="75%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>BUS</th>
+                                                        <th>LIGNE</th>
+                                                        <th>DATE</th>
+                                                        <th>VENTES</th>
+                                                        <th>STATUT</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @each(ag in offline_services)
+                                                    <tr>
+                                                        <td> <a href="/services/view/{{ ag.id }}"> {{ ag.vehicule_matricule }}</a></td>
+                                                        <td><a href="/services/view/{{ ag.id }}">{{ ag.line_name }}</a></td>
+                                                        <td><a href="/services/view/{{ ag.id }}">{{ ag.service_date }}</a></td>
+                                                        <td><a href="/services/view/{{ ag.id }}">{{ ag.tickets_sum }} XOF</a></td>
+                                                        <td>
+                                                            @if(ag.is_activated === '1')
+                                                            <span class="badge rounded-pill badge-light-success me-1">OUVERT</span>
+                                                            @else
+                                                            <span class="badge rounded-pill badge-light-danger me-1">FERMER</span>
+                
+                                                            @endif
+                
+                                                        </td>
+                                                    </tr>
+                
+                
+                                                    <div class="modal fade" id="del{{ ag.id }}" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                            <div class="modal-header bg-transparent">
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                                                                <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                                                <p class="text-center">Voulez-vous vraiement supprimer l'appareil du bus {{ag.vehicule_matricule}} ?</p>
+                
+                                                                <div class="col-12 text-center">
+                                                                    <a href="/devices/delete/{{ ag.id }}" class="btn btn-primary me-1 mt-1">Confirmer</a>
+                                                                    <button type="reset" class="btn btn-outline-danger mt-1" data-bs-dismiss="modal" aria-label="Close">
+                                                                    Annuler
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                
+                                                    @endeach
+                                                </tbody>
+                                                <tfoot style="background-color: #c0c0c0; color: #ffffff; font-size: 0.9em; ">
+                                                    <tr>
+                                                        <th>BUS</th>
+                                                        <th>LIGNE</th>
+                                                        <th>DATE</th>
+                                                        <th>VENTES</th>
+                                                        <th>STATUT</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+    <!-- list and filter end -->
+</section>
+
+@endsection

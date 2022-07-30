@@ -1,0 +1,45 @@
+<div class="card">
+    <!-- Modal to add new user starts-->
+    <div class="modal modal-slide-in new-user-modal fade" id="edit">
+        <div class="modal-dialog">
+            <form class="modal-content pt-0" action="/services/update/{{ service.id }}?_method=PUT"
+            method="POST">
+                {{ csrfField() }}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                <div class="modal-header mb-1">
+                    <h5 class="modal-title" id="exampleModalLabel">Modification</h5>
+                </div>
+                <div class="modal-body flex-grow-1">
+                    
+                    <div class="mb-1">
+                        <label class="form-label" for="tickets_count">TICKETS VENDUS</label>
+                        <input type="number" class="form-control dt-full-name"
+                            id="tickets_count" name="tickets_count" value="{{service.tickets_count}}"
+                            required />
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label" for="tickets_sum">TOTAL VENTES</label>
+                        <input type="number" id="tickets_sum"
+                            class="form-control" name="tickets_sum"
+                            value="{{service.tickets_sum}}" required />
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label" for="service_expense">DEPENSES</label>
+                        <input type="number" id="service_expense" class="form-control"
+                            value="{{service.service_expense}}" name="service_expense" required />
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label" for="service_balance">NET A VERSER</label>
+                        <input type="number" id="service_balance" class="form-control"
+                            value="{{service.service_balance}}" name="service_balance" required />
+                    </div>
+                    <button type="submit"
+                        class="btn btn-primary">Sauvegarder</button>
+                    <button type="reset" class="btn btn-outline-danger"
+                        data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal to add new user Ends-->

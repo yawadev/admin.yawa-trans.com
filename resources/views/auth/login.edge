@@ -1,0 +1,66 @@
+@layout('layout.auth')
+
+@section('content')
+@set('title', 'Login')
+
+<div class="content-header row">
+</div>
+<div class="content-body">
+    <div class="auth-wrapper auth-cover">
+        <div class="auth-inner row m-0">
+            <!-- Brand logo--><a class="brand-logo" href="#">
+                <img src="/assets/images/logo.png" width="100">
+            </a>
+            <!-- /Brand logo-->
+            <!-- Left Text-->
+            <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
+                <div class="w-100 d-lg-flex align-items-center justify-content-center px-5"><img class="img-fluid"
+                        src="/assets/images/pages/login-v2.svg" alt="Login V2" /></div>
+            </div>
+            <!-- /Left Text-->
+            <!-- Login-->
+            <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
+                    @if(flashMessage('error'))
+                    <div class="alert alert-danger mt-1 alert-validation-msg" role="alert">
+                        <div class="alert-body d-flex align-items-center">
+                            <i data-feather="info" class="me-50"></i>
+                            <span>{{ flashMessage('error') }}</span>
+                        </div>
+                    </div>
+                    @endif
+                    <h2 class="card-title fw-bold mb-1">Yawa Trans! 👋</h2>
+                    <form class="auth-login-form mt-2" action="{{ route('auth.login') }}" method="POST">
+                        {{ csrfField() }}
+                        <div class="mb-1">
+                            <label class="form-label" for="username">Nom d'utilisateur</label>
+                            <input class="form-control" id="username" type="text" name="username" placeholder=""
+                                aria-describedby="username" autofocus="" tabindex="1" />
+                        </div>
+                        <div class="mb-1">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="password">Mot de passe</label><a
+                                    href="/recovery"><small>Mot de passe oblié?</small></a>
+                            </div>
+                            <div class="input-group input-group-merge form-password-toggle">
+                                <input class="form-control form-control-merge" id="password" type="password"
+                                    name="password" placeholder="············" aria-describedby="password"
+                                    tabindex="2" /><span class="input-group-text cursor-pointer"><i
+                                        data-feather="eye"></i></span>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <div class="form-check">
+                                <input class="form-check-input" id="remember-me" type="checkbox" tabindex="3" />
+                                <label class="form-check-label" for="remember-me"> Se souvenir de moi</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" tabindex="4">CONNEXION</button>
+                    </form>
+                </div>
+            </div>
+            <!-- /Login-->
+        </div>
+    </div>
+</div>
+@endsection

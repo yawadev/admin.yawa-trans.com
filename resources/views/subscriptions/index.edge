@@ -1,0 +1,173 @@
+@layout('layout.app')
+
+@section('content')
+@set('title', 'Gestion des devices')
+
+<section class="app-user-list">
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(tot==0)
+                        <h3 class="fw-bolder mb-75">0 </h3>
+                          
+                        @else
+                        <h3 class="fw-bolder mb-75">{{tot}} </h3>
+                          
+                        @endif
+                        <span>Total</span>
+                    </div>
+                    <div class="avatar bg-light-primary p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(tot_pay==0)
+                        <h3 class="fw-bolder mb-75">0</h3>
+                          
+                        @else
+                        <h3 class="fw-bolder mb-75">{{tot_pay}}</h3>
+                          
+                        @endif
+                        <span>Payés</span>
+                    </div>
+                    <div class="avatar bg-light-danger p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-plus" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(tot_inpay==0)
+                        <h3 class="fw-bolder mb-75">0</h3>
+                          
+                        @else
+                        <h3 class="fw-bolder mb-75">{{tot_inpay}}</h3>
+                          
+                        @endif
+                        <span>EN ATTENTES</span>
+                    </div>
+                    <div class="avatar bg-light-success p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-check" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        @if(tot_reliquat==0)
+                        <h3 class="fw-bolder mb-75">0</h3>
+                          
+                        @else
+                        <h3 class="fw-bolder mb-75">{{tot_reliquat}}</h3>
+                          
+                        @endif
+                        <span>RELIQUATS</span>
+                    </div>
+                    <div class="avatar bg-light-success p-50">
+                        <span class="avatar-content">
+                            <i data-feather="user-check" class="font-medium-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- list and filter start -->
+    @if(flashMessage('notification'))
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('notification') }}
+        </div>
+    </div>
+    @endif
+    @if(hasErrorFor('name'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ getErrorFor('name') }}
+        </div>
+    </div>
+    @endif
+    @if(flashMessage('warning'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('warning') }}
+        </div>
+    </div>
+    @endif
+    <div class="row">
+    @each(ag in licences)
+    <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+        
+        <!-- Plan Card -->
+        <div class="card border-primary">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="mb-2">
+                        <select id="mois_pay" name="mois_pay" class="select2 form-select">
+                            <option value="JANVIER">JANVIER</option>
+                            <option value="FEVRIER">FEVRIER</option>
+                            <option value="MARS">MARS</option>
+                            <option value="AVRIL">AVRIL</option>
+                            <option value="MAI">MAI</option>
+                            <option value="JUIN">JUIN</option>
+                            <option value="JUILLET">JUILLET</option>
+                            <option value="AOUT">AOUT</option>
+                            <option value="SEPTEMBRE">SEPTEMBRE</option>
+                            <option value="OCTOBRE">OCTOBRE</option>
+                            <option value="NOVEMBRE">NOVEMBRE</option>
+                            <option value="DECEMBRE">DECEMBRE</option>
+                        </select>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <span class="fw-bolder display-7 mb-0 text-primary">{{ ag.companie_name }}</span>
+                    </div>
+                </div>
+                <ul class="ps-1 mb-2">
+                    <li class="mb-50">{{ ag.zone_name }}</li>
+                    <li class="mb-50">{{bus}} BUS</li>
+                    <li class="mb-50">{{ ag.amount }} XOF/MOIS</li>
+                </ul>
+                <div class="d-flex justify-content-between align-items-center fw-bolder mb-50">
+                    <span>FACTURATION</span>
+                    <span>{{ ag.invoice_type }}</span>
+                </div>
+                <div class="progress mb-50" style="height: 8px">
+                    <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemax="100" aria-valuemin="100"></div>
+                </div>
+                <div class="d-grid w-100 mt-2">
+                    <a href="/subscriptions/invoices/{{ ag.companie_id }}" class="btn btn-primary waves-effect waves-float waves-light">
+                        DETAILS
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /Plan Card -->
+    </div>
+    @endeach
+</div>
+    @include('subscriptions.partials._form')
+    <!-- list and filter end -->
+</section>
+
+@endsection

@@ -1,0 +1,39 @@
+{
+    "short_name": "ISANTE",
+    "name": "::ISANTE::",
+    "icons": [{
+            "src": "/assets/images/192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/assets/images/512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/?source=pwa",
+    "background_color": "rgb(83, 62, 149)",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "rgb(83, 62, 149)",
+    "shortcuts": [{
+        "name": "::ISANTE::",
+        "short_name": "ISANTE",
+        "description": "La solution pour une santé moderne",
+        "url": "/today?source=pwa",
+        "icons": [{ "src": "/assets/images/192.png", "sizes": "192x192" }]
+    }],
+    "description": "La solution pour une santé moderne",
+    "screenshots": [{
+            "src": "/assets/images/bus.png",
+            "type": "image/png",
+            "sizes": "1553x904"
+        },
+        {
+            "src": "/assets/images/bus.png",
+            "type": "image/png",
+            "sizes": "1553x904"
+        }
+    ]
+}

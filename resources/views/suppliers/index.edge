@@ -1,0 +1,129 @@
+@layout('layout.app') 
+@section('content') 
+@set('title', 'Gestion des recharges')
+
+<section class="app-user-list">
+    <!-- list and filter start -->
+    @if(flashMessage('notification'))
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('notification') }}
+        </div>
+    </div>
+    @endif 
+    @if(hasErrorFor('name'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ getErrorFor('name') }}
+        </div>
+    </div>
+    @endif 
+    @if(flashMessage('warning'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('warning') }}
+        </div>
+    </div>
+    @endif
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Liste des recharges</h4>
+            <div class="heading-elements">
+                <button type="button" class="btn btn-success waves-effect" data-bs-toggle="modal" data-bs-target="#add">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-home me-25">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Ajouter</span>
+                </button>
+            </div>
+        </div>
+        <div class="card-content collapse show">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <input id="table_name" value="fournisseurs" hidden>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="maintable" cellspacing="0" width="75%">
+                                <thead>
+                                    <tr>
+                                        <th>FOUNISSEUR</th>
+                                        <th>ADRESSE</th>
+                                        <th>TELEPHONE</th>
+                                        <th>PRIX UNITAIRE</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @each(ag in suppliers)
+                                    <tr>
+                                        <td>{{ ag.name }}</td>
+                                        <td>{{ ag.adresse }}</td>
+                                        
+                                        <td>{{ ag.contact_phone }}</td>
+                                        <td>{{ ag.unit_price }} XOF</td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                              
+                                                <button type="button" class="btn btn-outline-danger waves-effect" data-bs-toggle="modal" data-bs-target="#del{{ ag.id }}"><i
+                                                        data-feather='trash-2'></i>
+                                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+                                                    </path>
+                                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="del{{ ag.id }}" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                            <div class="modal-header bg-transparent">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                                                <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                                <p class="text-center">Voulez-vous vraiement supprimer  {{ag.name}} ?</p>
+                
+                                                <div class="col-12 text-center">
+                                                    <a type="button" href="/suppliers/delete/{{ ag.id }}" class="btn btn-primary me-1 mt-1">Confirmer</a>
+                                                    <button type="reset" class="btn btn-outline-danger mt-1" data-bs-dismiss="modal" aria-label="Close">
+                                                    Annuler
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                  
+                                  
+                                    @endeach
+                                </tbody>
+                                <tfoot style="background-color: #c0c0c0; color: #ffffff; font-size: 0.9em; ">
+                                    <tr>
+                                        <th>FOUNISSEUR</th>
+                                        <th>ADRESSE</th>
+                                        <th>TELEPHONE</th>
+                                        <th>PRIX UNITAIRE</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @include('suppliers.partials._form')
+    <!-- list and filter end -->
+</section>
+
+@endsection

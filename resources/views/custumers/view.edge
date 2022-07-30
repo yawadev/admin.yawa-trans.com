@@ -1,0 +1,476 @@
+@layout('layout.app')
+
+@section('content')
+@set('title', 'Gestion du Client {{companie.name}}')
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-start mb-0">GESTION DES CLIENTS</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">{{companie.name}}
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+        <div class="mb-1 breadcrumb-right">
+            <a  href="{{route('custumer.gie')}}" class="btn btn-danger suspend-user waves-effect">Retour</a>
+        </div>
+    </div>
+</div>
+<section class="app-user-view-account">
+    @if(flashMessage('notification'))
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('notification') }}
+        </div>
+    </div>
+    @endif
+    @if(hasErrorFor('name'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ getErrorFor('name') }}
+        </div>
+    </div>
+    @endif
+    @if(flashMessage('warning'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('warning') }}
+        </div>
+    </div>
+    @endif
+    <div class="row">
+        <!-- User Sidebar -->
+        <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+            <!-- User Card -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="user-avatar-section">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="avatar bg-light-danger avatar-xl">
+                                <span class="avatar-content">GIE</span>
+                            </div>
+                            <div class="user-info text-center">
+                                <h4>{{companie.name}}</h4>
+                                <span class="badge bg-light-secondary">{{companie.categorie}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-around my-2 pt-75">
+                        <div class="d-flex align-items-start me-2">
+                            <span class="badge bg-light-primary p-75 rounded">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users font-medium-2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </span>
+                            <div class="ms-75">
+                                @if(tot_op == 0)
+                                <h4 class="mb-0">0</h4>
+                                  
+                                @else
+                                <h4 class="mb-0">{{tot_op}}</h4>
+                                  
+                                @endif
+                                <small>Oprérateurs</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start">
+                            <span class="badge bg-light-primary p-75 rounded">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck font-medium-2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                            </span>
+                            <div class="ms-75">
+                                @if(tot_op == 0)
+                                <h4 class="mb-0">0</h4>
+                                  
+                                @else
+                                <h4 class="mb-0">{{tot_bus}}</h4>
+                                  
+                                @endif
+                                <small>Total bus</small>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="fw-bolder border-bottom pb-50 mb-1">Details</h4>
+                    <div class="info-container">
+                        <ul class="list-unstyled">
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">Point focal:</span>
+                                <span>{{companie.contact_name}}</span>
+                            </li>
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">Téléphone:</span>
+                                <span>{{companie.contact_phone}}</span>
+                            </li>
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">Email:</span>
+                                <span>{{companie.contact_email}}</span>
+                            </li>
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">Zone:</span>
+                                <span>{{companie.zone_name}}</span>
+                            </li>
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">Statut:</span>
+                                @if(companie.is_activated === "1")
+                                <span class="badge rounded-pill badge-light-success me-1">Activé</span>
+                                @else
+                                <span class="badge rounded-pill badge-light-danger me-1">Désactivé</span>
+
+                                @endif
+                            </li>
+                        </ul>
+                        <div class="d-flex justify-content-center pt-2">
+                            <a data-bs-toggle="modal" data-bs-target="#edit" class="btn btn-primary me-1 waves-effect waves-float waves-light" data-bs-target="#editUser" data-bs-toggle="modal">
+                                Modifier
+                            </a>
+                            @if(companie.is_activated === "1")
+                            <a  data-bs-toggle="modal" data-bs-target="#blocked" class="btn btn-danger suspend-user waves-effect">Suspendre</a>
+
+                            @else
+                            <a  data-bs-toggle="modal" data-bs-target="#reactived" class="btn btn-success suspend-user waves-effect">Réactiver</a>
+                            @endif
+                        </div>
+                        <!-- Edit User Modal -->
+                        <div class="modal fade" id="edit" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+                                <div class="modal-content">
+                                    <div class="modal-body pb-5 px-sm-5 pt-50">
+                                        <div class="text-center mb-2">
+                                            <h1 class="mb-1">Modification </h1>
+                                        </div>
+                                        <form action="/companies/update/{{ companie.id }}?_method=PUT"
+                                            method="POST" class="modal-content pt-0">
+
+                                            {{ csrfField() }}
+                                            <div class="modal-body flex-grow-1">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="name">Nom</label>
+                                                    <input type="text" class="form-control dt-full-name" id="name" name="name" value="{{ companie.name }}"/>
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="zone_id">Zone</label>
+                                                    <select id="zone_id" name="zone_id" class="select2 form-select">
+                                                        <option value="{{ companie.zone_id }}" selected>{{ companie.zone_name }}</option>
+                                                        @each(ag in zone)
+                                                        <option value="{{ ag.id }}">{{ ag.name }}</option>
+                                                        @endeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="contact_name">Point focal</label>
+                                                    <input type="text" id="contact_name" class="form-control dt-email" name="contact_name" value="{{ companie.contact_name }}" />
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="contact_phone">Téléphone Point focal</label>
+                                                    <input type="text" id="contact_phone" class="form-control dt-contact" name="contact_phone" value="{{ companie.contact_phone }}" />
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="contact_email">Email Point focal</label>
+                                                    <input type="email" id="contact_email" class="form-control" name="contact_email" value="{{ companie.contact_email }}" />
+                                                </div>
+                                                <button type="submit"
+                                                    class="btn btn-primary">Sauvegarder</button>
+                                                <button type="reset" class="btn btn-outline-danger"
+                                                    data-bs-dismiss="modal">Annuler</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ Edit User Modal -->
+                        <div class="modal fade" id="blocked" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-transparent">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    
+                                        
+                                    <form action="/companies/blocked/{{ companie.id }}?_method=PUT"
+                                        method="POST" class="modal-content pt-0">
+
+                                        {{ csrfField() }}
+                                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                                            <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                        <p class="text-center">Voulez-vous vraiement bloquer  {{companie.name}} ?</p>
+                                        <input type="text"   name="is_activated" value="0" hidden/>
+                                            
+                                            <button type="submit"
+                                                class="btn btn-primary">Valider</button>
+                                            <button type="reset" class="btn btn-outline-danger"
+                                                data-bs-dismiss="modal">Annuler</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="reactived" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-transparent">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    
+                                        
+                                    <form action="/companies/reactived/{{ companie.id }}?_method=PUT"
+                                        method="POST" class="modal-content pt-0">
+
+                                        {{ csrfField() }}
+                                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                                            <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                            <p class="text-center">Voulez-vous vraiement réactiver  {{companie.name}} ?</p>
+                                            <input type="text"   name="is_activated" value="1" hidden/>
+                                                
+                                                <button type="submit"
+                                                    class="btn btn-primary">Valider</button>
+                                                <button type="reset" class="btn btn-outline-danger"
+                                                data-bs-dismiss="modal">Annuler</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /User Card -->
+            <!-- Plan Card -->
+            <div class="card border-primary">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <span class="badge bg-light-primary">Standard</span>
+                        <div class="d-flex justify-content-center">
+                            <span class="fw-bolder display-5 mb-0 text-primary">{{ licences.amount }}</span>
+                            <sup class="h5 pricing-currency text-primary mt-1 mb-0">XOF</sup>
+                            <sub class="pricing-duration font-small-4 ms-25 mt-auto mb-2">/mois</sub>
+                        </div>
+                    </div>
+                    <ul class="ps-1 mb-2">
+                        @if(tot_op == 0)
+                            <li class="mb-50">0 BUS</li>
+                            <li class="mb-50">0 XOF/MOIS</li>
+                        @else
+                            <li class="mb-50">{{tot_bus}} BUS</li>
+                            <li class="mb-50">{{tot_bus*licences.amount}} XOF/MOIS</li>
+                        @endif
+                        <li>Basic Support</li>
+                    </ul>
+                    <div class="d-flex justify-content-between align-items-center fw-bolder mb-50">
+                        <span>PAIEMENT</span>
+                        <span>30 jrs</span>
+                    </div>
+                    <div class="progress mb-50" style="height: 8px">
+                        <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemax="100" aria-valuemin="100"></div>
+                    </div>
+                    <span>8 de chaque mois</span>
+                    <div class="d-grid w-100 mt-2">
+                        <button class="btn btn-primary waves-effect waves-float waves-light" data-bs-target="#upgradePlanModal" data-bs-toggle="modal">
+                            Upgrade Plan
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- /Plan Card -->
+        </div>
+        <!--/ User Sidebar -->
+
+        <!-- User Content -->
+        <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-pills justify-content-center">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab-center" data-bs-toggle="pill" href="#home-center" aria-expanded="true">Oprérateurs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="profile-tab-center" data-bs-toggle="pill" href="#profile-center" aria-expanded="false">Lignes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="about-tab-center" data-bs-toggle="pill" href="#about-center" aria-expanded="false">Appareils</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home-center" aria-labelledby="home-tab-center" aria-expanded="true">
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Liste de opérateurs</h4>
+                                        <div class="heading-elements">
+                                            <button type="button" class="btn btn-primary waves-effect" data-bs-toggle="modal"
+                                                data-bs-target="#addOperator">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-home me-25">
+                                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                                </svg>
+                                                <span>Ajouter</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-content collapse show">
+                                        <div class="col-sm-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>OPERATEUR</th>
+                                                            <th>TELEPHONE</th>
+                                                            <th>STATUT</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @each(ag in operators)
+                                                        <tr>
+                                                            <td>{{ ag.name }}</td>
+                                                            <td>{{ ag.phone }}</td>
+                                                            <td>
+                                                                @if(ag.is_activated == true)
+                                                                <span class="badge rounded-pill badge-light-success me-1">Activé</span>
+                                                                @else
+                                                                <span class="badge rounded-pill badge-light-danger me-1">Désactivé</span>
+                    
+                                                                @endif
+                    
+                                                            </td>
+                                                        </tr>
+                    
+                                                        @endeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane " id="profile-center" role="tabpanel" aria-labelledby="profile-tab-center" aria-expanded="false">
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Liste de lignes</h4>
+                                        <div class="heading-elements">
+                                            <button type="button" class="btn btn-primary waves-effect" data-bs-toggle="modal"
+                                                data-bs-target="#new_line">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-home me-25">
+                                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                                </svg>
+                                                <span>Ajouter</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @each(ags in lines)
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div class="card business-card shadow-none bg-transparent border-primary">
+                                        <div class="card-header pb-1">
+                                            <h4 class="card-title">LIGNE {{ ags.name }}</h4>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-medium-3 cursor-pointer"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                                        </div>
+                                        <div class="card-body">
+                                            <h6 class="mb-75"><a href="http://lines/view/{{ag.id}}"></a> {{ ags.point_a }} -- {{ ags.point_b }}</h6>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                @endeach
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="about-center" role="tabpanel" aria-labelledby="about-tab-center" aria-expanded="false">
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Liste de Appareils</h4>
+                                        <div class="heading-elements">
+                                            <button type="button" class="btn btn-primary waves-effect" data-bs-toggle="modal"
+                                                data-bs-target="#addDevice">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-home me-25">
+                                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                                </svg>
+                                                <span>Ajouter</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-content collapse show">
+                                        <div class="col-sm-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>OPERATEUR</th>
+                                                            <th>BUS</th>
+                                                            <th>NUMERO</th>
+                                                            <th>CONNEXION</th>
+                                                            <th>STATUT</th>
+                                                            <th>OPTION</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @each(ag in devices)
+                                                        <tr>
+                                                            <td>{{ ag.operator_name }}</td>
+                                                            <td>{{ ag.vehicule_matricule }}</td>
+                                                            <td>{{ ag.phone }}</td>
+                                                            <td>{{ ag.connexion_type }}</td>
+                                                            <td>
+                                                                @if(ag.is_activated === '1')
+                                                                <span class="badge rounded-pill badge-light-success me-1">Activé</span>
+                                                                @else
+                                                                <span class="badge rounded-pill badge-light-danger me-1">Désactivé</span>
+                    
+                                                                @endif
+                    
+                                                            </td>
+                                                            <td>
+                                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                                    <button type="button"
+                                                                    data-bs-toggle="modal" data-bs-target="#blocked{{ ag.id }}"
+                                                                        class="btn btn-outline-danger waves-effect">
+                                                                        <i data-feather='alert-triangle'></i>
+                                                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+                                                                        </path>
+                                                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                                                        </svg>
+                                                                    </button>
+                                                                    
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                    
+                                                        @endeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ User Content -->
+    </div>
+    @include('custumers.partials._addLine')
+    @include('custumers.partials._addOp')
+    @include('custumers.partials._addDevice')
+</section>
+
+
+@endsection

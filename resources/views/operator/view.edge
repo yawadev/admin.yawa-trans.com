@@ -1,0 +1,534 @@
+@layout('layout.app')
+
+@section('content')
+@set('title', 'Gestion des opérateurs')
+<div class="content-header row">
+    <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+            <div class="col-12">
+                <h2 class="content-header-title float-start mb-0">GESTION DES OPERATEURS</h2>
+                <div class="breadcrumb-wrapper">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">{{operator.name}}
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+        <div class="mb-1 breadcrumb-right">
+            <a  href="{{route('operators')}}" class="btn btn-danger suspend-user waves-effect">Retour</a>
+        </div>
+    </div>
+</div>
+<section class="app-user-view-account">
+    @if(flashMessage('notification'))
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('notification') }}
+        </div>
+    </div>
+    @endif
+    @if(hasErrorFor('name'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ getErrorFor('name') }}
+        </div>
+    </div>
+    @endif
+    @if(flashMessage('warning'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('warning') }}
+        </div>
+    </div>
+    @endif
+    <div class="row">
+        <!-- User Sidebar -->
+        <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+            <!-- User Card -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="user-avatar-section">
+                        <div class="d-flex align-items-center flex-column">
+                            <div class="avatar bg-light-danger avatar-xl">
+                                <span class="avatar-content">OP</span>
+                            </div>
+                            <div class="user-info text-center">
+                                <h4>{{operator.name}}</h4>
+                                <span class="badge bg-light-secondary">{{operator.type}}</span>
+                                <span class="badge bg-light-secondary">{{operator.companie_name}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-around my-2 pt-75">
+                        <div class="d-flex align-items-start me-2">
+                            <span class="badge bg-light-primary p-75 rounded">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users font-medium-2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </span>
+                            <div class="ms-75">
+                                @if(tot_op == 0)
+                                <h4 class="mb-0">0</h4>
+                                  
+                                @else
+                                <h4 class="mb-0">{{tot_op}}</h4>
+                                  
+                                @endif
+                                <small>APPAREILS</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start">
+                            <span class="badge bg-light-primary p-75 rounded">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck font-medium-2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                            </span>
+                            <div class="ms-75">
+                                @if(tot_bus == 0)
+                                <h4 class="mb-0">0</h4>
+                                  
+                                @else
+                                <h4 class="mb-0">{{tot_bus}}</h4>
+                                  
+                                @endif
+                                <small>BUS</small>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="fw-bolder border-bottom pb-50 mb-1">Details</h4>
+                    <div class="info-container">
+                        <ul class="list-unstyled">
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">TELEPHONE:</span>
+                                <span>{{operator.phone}}</span>
+                            </li>
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">EMAIL:</span>
+                                <span>{{operator.email}}</span>
+                            </li>
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">Zone:</span>
+                                <span>{{operator.zone_name}}</span>
+                            </li>
+                            <li class="mb-75">
+                                <span class="fw-bolder me-25">Statut:</span>
+                                @if(operator.is_activated === "1")
+                                <span class="badge rounded-pill badge-light-success me-1">Activé</span>
+                                @else
+                                <span class="badge rounded-pill badge-light-danger me-1">Désactivé</span>
+
+                                @endif
+                            </li>
+                        </ul>
+                        <div class="d-flex justify-content-center pt-2">
+                            <a data-bs-toggle="modal" data-bs-target="#edit" class="btn btn-primary me-1 waves-effect waves-float waves-light" data-bs-target="#editUser" data-bs-toggle="modal">
+                                Modifier
+                            </a>
+                            @if(operator.is_activated === "1")
+                            <a  data-bs-toggle="modal" data-bs-target="#blocked" class="btn btn-danger suspend-user waves-effect">Suspendre</a>
+
+                            @else
+                            <a  data-bs-toggle="modal" data-bs-target="#reactived" class="btn btn-success suspend-user waves-effect">Réactiver</a>
+                            @endif
+                        </div>
+                        <!--/ Edit User Modal -->
+                        <div class="modal fade" id="blocked" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-transparent">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    
+                                        
+                                    <form action="/operators/blocked/{{ operator.id }}?_method=PUT"
+                                        method="POST" class="modal-content pt-0">
+
+                                        {{ csrfField() }}
+                                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                                            <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                        <p class="text-center">Voulez-vous vraiement bloquer  {{operator.name}} ?</p>
+                                        <input type="text"   name="is_activated" value="0" hidden/>
+                                            
+                                            <button type="submit"
+                                                class="btn btn-primary">Valider</button>
+                                            <button type="reset" class="btn btn-outline-danger"
+                                                data-bs-dismiss="modal">Annuler</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="reactived" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-transparent">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    
+                                        
+                                    <form action="/operators/reactived/{{ operator.id }}?_method=PUT"
+                                        method="POST" class="modal-content pt-0">
+
+                                        {{ csrfField() }}
+                                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                                            <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                            <p class="text-center">Voulez-vous vraiement réactiver  {{operator.name}} ?</p>
+                                            <input type="text"   name="is_activated" value="1" hidden/>
+                                                
+                                                <button type="submit"
+                                                    class="btn btn-primary">Valider</button>
+                                                <button type="reset" class="btn btn-outline-danger"
+                                                data-bs-dismiss="modal">Annuler</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /User Card -->
+            <!-- Plan Card -->
+            <div class="card border-primary">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <span class="badge bg-light-primary">Standard</span>
+                        <div class="d-flex justify-content-center">
+                            <span class="fw-bolder display-5 mb-0 text-primary">{{ licences.amount }}</span>
+                            <sup class="h5 pricing-currency text-primary mt-1 mb-0">XOF</sup>
+                            <sub class="pricing-duration font-small-4 ms-25 mt-auto mb-2">/mois</sub>
+                        </div>
+                    </div>
+                    <ul class="ps-1 mb-2">
+                        @if(tot_bus == 0)
+                            <li class="mb-50">0 BUS</li>
+                            <li class="mb-50">0 XOF/MOIS</li>
+                        @else
+                            <li class="mb-50">{{tot_bus}} BUS</li>
+                            <li class="mb-50">{{tot_bus*licences.amount}} XOF/MOIS</li>
+                        @endif
+                    </ul>
+                    <div class="d-flex justify-content-between align-items-center fw-bolder mb-50">
+                        <span>FACTURATION</span>
+                        <span>{{licences.invoice_type}}</span>
+                    </div>
+                    <div class="progress mb-50" style="height: 8px">
+                        <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemax="100" aria-valuemin="100"></div>
+                    </div>
+                    <span>8 de chaque mois</span>
+                    <div class="d-grid w-100 mt-2">
+                        <button class="btn btn-primary waves-effect waves-float waves-light" data-bs-target="#upgradePlanModal" data-bs-toggle="modal">
+                            Upgrade Plan
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- /Plan Card -->
+        </div>
+        <!--/ User Sidebar -->
+
+        <!-- User Content -->
+        <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
+            <div class="card">
+                <div class="card-body">
+                    <ul class="nav nav-pills justify-content-center">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab-center" data-bs-toggle="pill" href="#home-center" aria-expanded="true">VEHICULES</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " id="profile-tab-center" data-bs-toggle="pill" href="#profile-center" aria-expanded="false">FACTURES</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="about-tab-center" data-bs-toggle="pill" href="#about-center" aria-expanded="false">APPAREILS</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home-center" aria-labelledby="home-tab-center" aria-expanded="true">
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Liste des véhicules</h4>
+                                        <div class="heading-elements">
+                                            <button type="button" class="btn btn-primary waves-effect" data-bs-toggle="modal"
+                                                data-bs-target="#addBus">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-home me-25">
+                                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                                </svg>
+                                                <span>Ajouter</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-content collapse show">
+                                        <div class="col-sm-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>MATRICULE</th>
+                                                            <th>STATUT</th>
+                                                            <th>OPTION</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @each(ag in vehicules)
+                                                        <tr>
+                                                            <td>{{ ag.matricule }}</td>
+                                                            <td>
+                                                                @if(ag.is_activated == '1')
+                                                                <span class="badge rounded-pill badge-light-success me-1">Activé</span>
+                                                                @else
+                                                                <span class="badge rounded-pill badge-light-danger me-1">Désactivé</span>
+                    
+                                                                @endif
+                    
+                                                            </td>
+                                                            <td>
+                                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                                    <button type="button" class="btn btn-outline-danger waves-effect"
+                                                                    data-bs-toggle="modal" data-bs-target="#del{{ ag.id }}"><i
+                                                                            data-feather='trash-2'></i>
+                                                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+                                                                        </path>
+                                                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                                                        </svg>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                    
+                    
+                                                        <div class="modal fade" id="del{{ ag.id }}" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                <div class="modal-header bg-transparent">
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body px-sm-5 mx-50 pb-5">
+                                                                    <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                                                    <p class="text-center">Voulez-vous vraiement supprimer le véhicule {{ag.matricule}} ?</p>
+                    
+                                                                    <div class="col-12 text-center">
+                                                                        <a href="/vehicule/delete/{{ ag.id }}" class="btn btn-primary me-1 mt-1">Confirmer</a>
+                                                                        <button type="reset" class="btn btn-outline-danger mt-1" data-bs-dismiss="modal" aria-label="Close">
+                                                                        Annuler
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                    
+                                                        @endeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane " id="profile-center" role="tabpanel" aria-labelledby="profile-tab-center" aria-expanded="false">
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">FACTURES</h4>
+                                    </div>
+                                </div>
+                                <div class="card-content collapse show">
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered"  id="maintable" cellspacing="0" width="75%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>BUS</th>
+                                                        <th>MOIS</th>
+                                                        <th>MONTANT</th>
+                                                        <th>STATUT</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @each(ag in invoices)
+                                                    <tr>
+                                                        <td><a href="/subscriptions/view/{{ ag.id }}">{{ ag.vehicule_matricule }}</a></td>
+                                                        <td><a href="/subscriptions/view/{{ ag.id }}">{{ ag.mois_pay }}</a></td>
+                                                        <td><a href="/subscriptions/view/{{ ag.id }}">{{ ag.amount }} XOF</a></td>
+                                                        <td>
+                                                            @if(ag.payement_status === '1')
+                                                            <span class="badge rounded-pill badge-light-success me-1">Payée</span>
+                                                            @else
+                                                            <span class="badge rounded-pill badge-light-danger me-1">En attente</span>
+                
+                                                            @endif
+                
+                                                        </td>
+                                                    </tr>
+                                                    @endeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="about-center" role="tabpanel" aria-labelledby="about-tab-center" aria-expanded="false">
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Liste de Appareils</h4>
+                                        <div class="heading-elements">
+                                            <button type="button" class="btn btn-primary waves-effect" data-bs-toggle="modal"
+                                                data-bs-target="#addDevice">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-home me-25">
+                                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                                </svg>
+                                                <span>Ajouter</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-content collapse show">
+                                        <div class="col-sm-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>CONNEXION</th>
+                                                            <th>BUS</th>
+                                                            <th>NUMERO</th>
+                                                            <th>STATUT</th>
+                                                            <th>OPTION</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @each(ag in devices)
+                                                        <tr>
+                                                        <td>
+                                                            <img src="/{{ ag.connexion_img }}" class="me-75" height="20" width="60" alt="Angular">
+                                                        </td>
+                                                            <td>{{ ag.vehicule_matricule }}</td>
+                                                            <td>{{ ag.phone }}</td>
+                                                            <td>
+                                                                @if(ag.is_activated === '1')
+                                                                <span class="badge rounded-pill badge-light-success me-1">Activé</span>
+                                                                @else
+                                                                <span class="badge rounded-pill badge-light-danger me-1">Désactivé</span>
+                    
+                                                                @endif
+                    
+                                                            </td>
+                                                            <td>
+                                                                @if(ag.is_activated === '1')
+                                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                                    <button type="button"
+                                                                    data-bs-toggle="modal" data-bs-target="#blocked{{ ag.id }}"
+                                                                        class="btn btn-outline-danger waves-effect">
+                                                                        <i data-feather='alert-triangle'></i>
+                                                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+                                                                        </path>
+                                                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                                                        </svg>
+                                                                    </button>
+                                                                    
+                                                                </div>
+                                                                @else
+                                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                                    <button type="button"
+                                                                    data-bs-toggle="modal" data-bs-target="#reactived{{ ag.id }}"
+                                                                        class="btn btn-outline-success waves-effect">
+                                                                        <i data-feather='check'></i>
+                                                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
+                                                                        </path>
+                                                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                                                        </svg>
+                                                                    </button>
+                                                                    
+                                                                </div>
+                    
+                                                                @endif
+                                                                
+                                                            </td>
+                                                        </tr>
+                                                        <div class="modal fade" id="blocked{{ ag.id }}" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header bg-transparent">
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    
+                                                                        
+                                                                    <form action="/devices/blocked/{{ ag.id }}?_method=PUT"
+                                                                        method="POST" class="modal-content pt-0">
+                                
+                                                                        {{ csrfField() }}
+                                                                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                                                                            <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                                                        <p class="text-center">Voulez-vous vraiement bloquer  {{ag.phone}} ?</p>
+                                                                        <input type="text"   name="is_activated" value="0" hidden/>
+                                                                            
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">Valider</button>
+                                                                            <button type="reset" class="btn btn-outline-danger"
+                                                                                data-bs-dismiss="modal">Annuler</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal fade" id="reactived{{ ag.id }}" tabindex="-1" aria-labelledby="addNewCardTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header bg-transparent">
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    
+                                                                        
+                                                                    <form action="/devices/reactived/{{ ag.id }}?_method=PUT"
+                                                                        method="POST" class="modal-content pt-0">
+                                
+                                                                        {{ csrfField() }}
+                                                                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                                                                            <h1 class="text-center mb-1" id="addNewCardTitle">Attention</h1>
+                                                                            <p class="text-center">Voulez-vous vraiement réactiver  {{ag.phone}} ?</p>
+                                                                            <input type="text"   name="is_activated" value="1" hidden/>
+                                                                                
+                                                                                <button type="submit"
+                                                                                    class="btn btn-primary">Valider</button>
+                                                                                <button type="reset" class="btn btn-outline-danger"
+                                                                                data-bs-dismiss="modal">Annuler</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @endeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ User Content -->
+    </div>
+    @include('operator.partials._edit')
+    @include('operator.partials._addDevice')
+    @include('operator.partials._addBus')
+</section>
+
+
+@endsection

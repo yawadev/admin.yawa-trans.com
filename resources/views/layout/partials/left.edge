@@ -1,0 +1,110 @@
+<!-- BEGIN: Main Menu-->
+<div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
+    <div class="navbar-header">
+        <ul class="nav navbar-nav flex-row">
+            <li class="nav-item me-auto">
+                <a class="navbar-brand" href="{{route('/')}}">
+                    <span class="brand-logo">
+                              </span>
+                    <h2 class="brand-text">YAWA-TRANS</h2>
+                </a>
+            </li>
+            <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i
+                                    class="d-block d-xl-none text-primary toggle-icon font-medium-4"
+                                    data-feather="x"></i><i
+                                    class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary"
+                                    data-feather="disc" data-ticon="disc"></i></a></li>
+        </ul>
+    </div>
+    <div class="shadow-bottom"></div>
+    <div class="main-menu-content">
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+            <li class="nav-item active"><a class="d-flex align-items-center" href="{{route('/')}}"><i
+                                    data-feather="home"></i><span class="menu-title text-truncate"
+                                    data-i18n="Dashboards">Dashboard</span></a>
+            </li>
+
+            <li><a class="d-flex align-items-center" href="{{route('services')}}"><i
+                                    data-feather='file-text'></i><span class="menu-item text-truncate"
+                                    data-i18n="List">Services</span></a>
+                              </li>
+                              <li><a class="d-flex align-items-center" href="{{route('reports')}}"><i data-feather='bar-chart-2'></i><span class="menu-item text-truncate"
+                                                      data-i18n="List">Rapport</span></a>
+                                                </li>
+                              @if(auth.user.role_id == 1 || auth.user.role_id == 2 )
+                              <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='file-text'></i><span class="menu-title text-truncate"
+                                data-i18n="Invoice">Opérateurs</span></a>
+                                      <ul class="menu-content">
+                                          <li><a class="d-flex align-items-center" href="{{route('custumer.gie')}}"><i
+                                              data-feather="circle"></i><span class="menu-item text-truncate"
+                                              data-i18n="List">Gie</span></a>
+                                              </li>
+                                            <li><a class="d-flex align-items-center" href="{{route('operators')}}"><i
+                                                                    data-feather="circle"></i><span class="menu-item text-truncate"
+                                                                    data-i18n="List">Opérateurs</span></a>
+                                            </li>
+                                            <li><a class="d-flex align-items-center" href="{{route('vehicules')}}"><i
+                                                                    data-feather="circle"></i><span class="menu-item text-truncate"
+                                                                    data-i18n="List">Véhicules</span></a>
+                                            </li>
+                                            <li><a class="d-flex align-items-center" href="{{route('lines')}}"><i
+                                                data-feather="circle"></i><span class="menu-item text-truncate"
+                                                data-i18n="List">Lignes</span></a>
+                        </li>
+                                      </ul>
+                                </li>
+                @endif
+                @if(auth.user.role_id == 1)
+                <li class="nav-item"><a class="d-flex align-items-center" href="{{route('devices')}}"><i
+                                    data-feather='smartphone'></i><span class="menu-item text-truncate"
+                                    data-i18n="List">Appareils</span></a>
+                </li>
+                  
+                
+                <li class="nav-item"><a class="d-flex align-items-center" href="{{route('subscriptions')}}"><i data-feather='trello'></i><span class="menu-item text-truncate"
+                                    data-i18n="List">Factures</span></a>
+                </li>
+                <li class="nav-item"><a class="d-flex align-items-center" href="{{route('recharges')}}"><i data-feather='wifi'></i><span class="menu-item text-truncate"
+                                    data-i18n="List">Recharges internet</span></a>
+                  </li>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='file-text'></i><span class="menu-title text-truncate"
+                  data-i18n="Invoice">Gestion Bobines</span></a>
+                        <ul class="menu-content">
+                            <li><a class="d-flex align-items-center" href="{{route('dotations')}}"><i
+                                data-feather="circle"></i><span class="menu-item text-truncate"
+                                data-i18n="List">Dotations</span></a>
+                                </li>
+                              <li><a class="d-flex align-items-center" href="{{route('commandes')}}"><i
+                                                      data-feather="circle"></i><span class="menu-item text-truncate"
+                                                      data-i18n="List">Commandes</span></a>
+                              </li>
+                              <li><a class="d-flex align-items-center" href="{{route('suppliers')}}"><i
+                                                      data-feather="circle"></i><span class="menu-item text-truncate"
+                                                      data-i18n="List">Fournisseurs</span></a>
+                              </li>
+                        </ul>
+                  </li>
+                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i
+                                    data-feather="settings"></i><span class="menu-title text-truncate"
+                                    data-i18n="Invoice">Paramétrage</span></a>
+                    <ul class="menu-content">
+                        <li><a class="d-flex align-items-center" href="{{route('setting.zones')}}"><i
+                                                data-feather="circle"></i><span class="menu-item text-truncate"
+                                                data-i18n="List">Zones</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="{{route('licences')}}"><i
+                                                data-feather="circle"></i><span class="menu-item text-truncate"
+                                                data-i18n="List">Licences</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center" href="{{route('admin.users')}}"><i
+                              data-feather="circle"></i><span class="menu-item text-truncate"
+                              data-i18n="List">Utilisateurs</span></a>
+                              </li>
+                    </ul>
+                </li>
+                @endif
+
+        </ul>
+    </div>
+</div>
+<!-- END: Main Menu-->

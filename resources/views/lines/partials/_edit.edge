@@ -1,0 +1,41 @@
+<div class="card">
+    <!-- Modal to add new user starts-->
+    <div class="modal modal-slide-in new-user-modal fade" id="edit">
+        <div class="modal-dialog">
+            <form class="modal-content pt-0" action="/lines/update/{{ line.id }}?_method=PUT"
+            method="POST">
+                {{ csrfField() }}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                <div class="modal-header mb-1">
+                    <h5 class="modal-title" id="exampleModalLabel">Modification</h5>
+                </div>
+                <div class="modal-body flex-grow-1">
+                    <div class="mb-1">
+                        <label class="form-label" for="companie_id">GIE</label>
+                        <select id="companie_id" name="companie_id" class="select2 form-select" required>
+                            <option value="{{ line.companie_id }}" selected>{{ line.companie_name }}</option>
+                            @each(ag in gie)
+                            <option value="{{ ag.id }}">{{ ag.name }}</option>
+                            @endeach
+                        </select>
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label" for="name">Nom</label>
+                        <input type="text" class="form-control dt-full-name" id="name" name="name" value="{{line.name}}" required />
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label" for="point_a">TERMINUS 1</label>
+                        <input type="text" id="point_a" class="form-control" name="point_a" value="{{line.point_a}}" required />
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label" for="point_b">TERMINUS 2</label>
+                        <input type="text" id="point_b" class="form-control" name="point_b" value="{{line.point_b}}" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    <button type="reset" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal to add new user Ends-->

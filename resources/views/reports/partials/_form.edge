@@ -1,0 +1,52 @@
+<div class="card">
+    <!-- Modal to add new user starts-->
+    <div class="modal modal-slide-in new-user-modal fade" id="add">
+        <div class="modal-dialog">
+            <form class="modal-content pt-0" action="{{ route('subscriptions.create') }}" method="POST">
+                {{ csrfField() }}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                <div class="modal-header mb-1">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une facture</h5>
+                </div>
+                <div class="modal-body flex-grow-1">
+                    <div class="mb-1">
+                        <label class="form-label" for="vehicule_id">Opérateur</label>
+                        <select id="vehicule_id" name="vehicule_id" class="select2 form-select" required>
+                            <option value="" selected>Choisir</option>
+                            @each(ag in vehicules)
+                            <option value="{{ ag.id }}">{{ ag.operator_name }} - {{ ag.matricule }}</option>
+                            @endeach
+                        </select>
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label" for="amount">Montant</label>
+                        <div class="input-group input-group-merge mb-2">
+                            <input type="number" id="amount" name="amount" class="form-control" readonly>
+                            <span class="input-group-text">XOF</span>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label" for="mois_pay">Mois</label>
+                        <select id="mois_pay" name="mois_pay" class="select2 form-select">
+                            <option value="JANVIER">JANVIER</option>
+                            <option value="FEVRIER">FEVRIER</option>
+                            <option value="MARS">MARS</option>
+                            <option value="AVRIL">AVRIL</option>
+                            <option value="MAI">MAI</option>
+                            <option value="JUIN">JUIN</option>
+                            <option value="JUILLET">JUILLET</option>
+                            <option value="AOUT">AOUT</option>
+                            <option value="SEPTEMBRE">SEPTEMBRE</option>
+                            <option value="OCTOBRE">OCTOBRE</option>
+                            <option value="NOVEMBRE">NOVEMBRE</option>
+                            <option value="DECEMBRE">DECEMBRE</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    <button type="reset" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal to add new user Ends-->

@@ -1,0 +1,134 @@
+@layout('layout.app')
+
+@section('content')
+@set('title', 'Gestion des devices')
+
+<section class="app-user-list">
+   
+    <!-- list and filter start -->
+    @if(flashMessage('notification'))
+    <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('notification') }}
+        </div>
+    </div>
+    @endif
+    @if(hasErrorFor('name'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ getErrorFor('name') }}
+        </div>
+    </div>
+    @endif
+    @if(flashMessage('warning'))
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Success</h4>
+        <div class="alert-body">
+            {{ flashMessage('warning') }}
+        </div>
+    </div>
+    @endif
+    <div class="card faq-search" style="background-image: url('/assets/images/banner/banner.png')">
+        <div class="card-body">
+            <!-- main title -->
+            <h2 class="text-primary">Cette page vous permets de produire des statistiques personnalisées.</h2>
+            <p class="card-text mb-2">Les services ouverts ne seront pas pris en compte la recherche.</p>
+            <!-- search input -->
+            @if(auth.user.role_id == 1 || auth.user.role_id == 3 || auth.user.role_id == 5 )
+            <div class="card">
+                <div class="card-body">
+                    <form class="form" action="{{ route('reports.request') }}" method="POST">
+                        <div class="row">
+                            
+                            <div class="col-md-6 col-12">
+                                <div class="mb-1">
+                                    <label class="form-label" for="vehicule_id">BUS</label>
+                                    <select id="vehicule_id" name="vehicule_id" class="select2 form-select">
+                                        <option value="0" selected>TOUS</option>
+                                        @each(ag in vehicules)
+                                        <option value="{{ ag.id }}">{{ ag.operator_name }} - {{ ag.matricule }}</option>
+                                @endeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="mb-1">
+                                    <label class="form-label" for="dates">PERIODE DE RECHERCHE</label>
+                                    <input type="text" id="dates" class="form-control flatpickr-range"  name="dates" placeholder="YYYY-MM-DD to YYYY-MM-DD" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">VALIDER</button>
+                                <button type="reset" class="btn btn-outline-secondary waves-effect">ANNULER</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @elseif(auth.user.role_id== 2 ) 
+            <div class="card">
+                <div class="card-body">
+                    <form class="form" action="{{ route('reports.request') }}" method="POST">
+                        <div class="row">
+                            
+                            <div class="col-md-6 col-12">
+                                <div class="mb-1">
+                                    <label class="form-label" for="vehicule_id">GIE</label>
+                                    <select id="vehicule_id" name="vehicule_id" class="select2 form-select">
+                                        <option value="0" selected>TOUS</option>
+                                        @each(ag in gie)
+                                        <option value="{{ ag.id }}">{{ ag.name }} - {{ ag.zone_name }}</option>
+                                @endeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="mb-1">
+                                    <label class="form-label" for="dates">PERIODE DE RECHERCHE</label>
+                                    <input type="text" id="dates" class="form-control flatpickr-range"  name="dates" placeholder="YYYY-MM-DD to YYYY-MM-DD" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">VALIDER</button>
+                                <button type="reset" class="btn btn-outline-secondary waves-effect">ANNULER</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @elseif(auth.user.role_id== 4 ) 
+            <form class="form" action="{{ route('reports.request') }}" method="POST">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="mb-1">
+                            <label class="form-label" for="vehicule_id">BUS</label>
+                            <select id="vehicule_id" name="vehicule_id" class="select2 form-select">
+                                <option value="0" selected>TOUS</option>
+                                @each(ag in vehicules)
+                                <option value="{{ ag.id }}">{{ ag.operator_name }} {{ ag.matricule }}</option>
+                                @endeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="mb-1">
+                            <label class="form-label" for="dates">PERIODE DE RECHERCHE</label>
+                            <input type="text" id="dates" class="form-control flatpickr-range"  name="dates" placeholder="YYYY-MM-DD to YYYY-MM-DD" />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">VALIDER</button>
+                        <button type="reset" class="btn btn-outline-secondary waves-effect">ANNULER</button>
+                    </div>
+                </div>
+            </form>
+            @endif
+            
+        </div>
+    </div>
+    <!-- list and filter end -->
+</section>
+
+@endsection

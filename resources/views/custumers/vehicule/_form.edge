@@ -1,0 +1,39 @@
+<div class="card">
+    <!-- Modal to add new user starts-->
+    <div class="modal modal-slide-in new-user-modal fade" id="addOperator">
+        <div class="modal-dialog">
+            <form class="modal-content pt-0" action="{{ route('vehicules.create') }}" method="POST">
+                {{ csrfField() }}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                <div class="modal-header mb-1">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un véhicule</h5>
+                </div>
+                <div class="modal-body flex-grow-1">
+                    <div class="mb-1">
+                        <label class="form-label" for="operator_id">Opérateur</label>
+                        <select id="operator_id" name="operator_id" class="select2 form-select" required>
+                            <option value="" selected>Choisir</option>
+                            @each(ag in operator)
+                            <option value="{{ ag.id }}">{{ ag.name }}</option>
+                            @endeach
+                        </select>
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label" for="matricule">Matricule</label>
+                        <input type="text" class="form-control dt-full-name" id="matricule" name="matricule" required />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label" for="is_activated">Statut</label>
+                        <select id="is_activated" name="is_activated" class="select2 form-select">
+                            <option value="1">Activé</option>
+                            <option value="0">Désactivé</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    <button type="reset" class="btn btn-outline-danger" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal to add new user Ends-->
